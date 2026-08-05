@@ -24,7 +24,7 @@ export default function PhilosophyGrid() {
     {
       icon: <Sparkles className="h-6 w-6" />,
       title: "Premium AI Platform",
-      desc: "A specialized ecosystem combining curated hardware kits with an advanced, cloud-native IDE designed specifically for younger creators.",
+      desc: "A specialized platform combining curated hardware kits with a cloud-native IDE built for younger creators.",
     },
   ];
 
@@ -37,10 +37,11 @@ export default function PhilosophyGrid() {
             High-Agency Mindset
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-heading">
-            Education Re-engineered
+            Engineering, re-engineered for builders
           </h2>
           <p className="text-muted-foreground text-[15px] leading-relaxed">
-            Traditional institutions focus on repeating answers. Aurigen focuses on asking the right questions and building the answers physically.
+            Traditional institutions focus on repeating answers. Aurigen focuses
+            on asking the right questions and building the answers physically.
           </p>
         </div>
 

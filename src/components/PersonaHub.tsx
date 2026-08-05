@@ -21,8 +21,8 @@ export default function PersonaHub() {
 
   const personas: Record<PersonaKey, PersonaData> = {
     student: {
-      title: "Unleash Your Inner Inventor",
-      lead: "Skip the textbooks. Get direct access to real hardware, raw code, and computer vision model templates.",
+      title: "Build as an inventor",
+      lead: "Skip the textbooks. Work with real hardware, raw code, and computer vision model templates.",
       bullets: [
         "Build projects like face-tracking turrets and smart plants.",
         "Bridge visual node logic with Python syntax dynamically.",
@@ -47,8 +47,8 @@ export default function PersonaHub() {
       ),
     },
     parent: {
-      title: "Give Your Child a Future-Proof Skillset",
-      lead: "Don't just let them consume technology. Let them master the core engineering logic behind it.",
+      title: "Give your child engineering skill",
+      lead: "Don't only let them consume technology. Let them master the core engineering logic behind it.",
       bullets: [
         "Curriculum created by top Robotics and Machine Learning engineers.",
         "Focus on critical, high-agency troubleshooting and logical flow.",
@@ -79,8 +79,8 @@ export default function PersonaHub() {
       ),
     },
     school: {
-      title: "Establish a Top-Tier STEM & AI Lab",
-      lead: "Deploy professional grade curriculum, physical hardware, and digital IDEs under your institution's name.",
+      title: "Stand up an AI and robotics lab",
+      lead: "Deploy professional curriculum, physical hardware, and digital IDEs under your institution's name.",
       bullets: [
         "Turnkey laboratory design: from workstations to custom microcontrollers.",
         "Full curriculum alignment for middle and high-school levels.",
@@ -112,8 +112,8 @@ export default function PersonaHub() {
       ),
     },
     teacher: {
-      title: "Zero-Friction Tech Instruction",
-      lead: "You don't need to be an AI researcher or coding veteran to guide your class. Our system does the heavy lifting.",
+      title: "Teach tech without the friction",
+      lead: "You don't need to be an AI researcher or coding veteran to guide your class. Our system handles the heavy lifting.",
       bullets: [
         "One-click classroom dashboard: see every student's code in real-time.",
         "Instant debugger highlights common connection and compilation errors.",
@@ -150,10 +150,11 @@ export default function PersonaHub() {
             Designed For Builders & Sponsors
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-heading">
-            Custom Journeys for Everyone
+            Paths built for every builder
           </h2>
           <p className="text-muted-foreground text-[15px] leading-relaxed">
-            Whether you are an ambitious student, a visionary parent, or an institution principal, Aurigen has dedicated, premium onboarding experiences.
+            Student, parent, or school leader: Aurigen has a clear path into
+            hands-on AI and robotics.
           </p>
         </div>
 

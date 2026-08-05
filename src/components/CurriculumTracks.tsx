@@ -47,10 +47,12 @@ export default function CurriculumTracks() {
             Learning Pathways
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-heading">
-            The Roadmap from Consumer to Creator
+            From first circuit to original invention
           </h2>
           <p className="text-muted-foreground text-[15px] leading-relaxed">
-            Our project-based curriculum is divided into progressive tracks. Students move from basic logic structures to production-level systems engineering.
+            Our project-based curriculum is divided into progressive tracks.
+            Students move from basic logic structures to production-level systems
+            engineering.
           </p>
         </div>
 

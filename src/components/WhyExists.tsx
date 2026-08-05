@@ -5,33 +5,34 @@ import { fadeUp, stagger } from "@/lib/motion";
 
 const pillars = [
   {
-    title: "From consumers to creators",
-    body: "Technology is reshaping every industry. The next generation should not only use it — they should invent with it.",
+    title: "From consumers to builders",
+    body: "Machines that sense, decide, and act are rewriting every industry. Young people should design those systems, not only use them.",
   },
   {
     title: "Engineering over memorization",
-    body: "We replace rote learning with real systems: sensors, models, motors, and the reasoning that binds them.",
+    body: "We replace rote coverage with real systems: sensors, models, motors, and the control that binds them.",
   },
   {
-    title: "Venture-scale ambition",
-    body: "Aurigen is building infrastructure for how young people learn AI and robotics — not another coaching franchise.",
+    title: "Institutional ambition",
+    body: "Aurigen builds the labs, standards, and mentorship that forge AI engineers and robotics innovators. Not another coaching franchise.",
   },
 ];
 
 export default function WhyExists() {
   return (
-    <section id="why" className="py-24 md:py-32 bg-background border-t border-border">
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div {...fadeUp} className="max-w-2xl mb-16 md:mb-20">
-          <p className="text-xs font-heading font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-4">
-            Why Aurigen exists
+    <section id="why" className="border-t border-border bg-background py-16 md:py-24 lg:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <motion.div {...fadeUp} className="mb-12 max-w-2xl md:mb-16 lg:mb-20">
+          <p className="mb-4 text-xs font-heading font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Reality
           </p>
-          <h2 className="text-3xl md:text-5xl font-bold leading-[1.1] mb-5">
-            The world needs builders — not better test-takers.
+          <h2 className="mb-5 text-3xl font-bold leading-[1.1] md:text-5xl">
+            Why does Aurigen exist?
           </h2>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-            Aurigen is an AI and Robotics company. We exist to grow the people
-            who will design, ship, and lead the systems of tomorrow.
+            The world needs builders, not better test-takers. Aurigen is an
+            engineering institution. We forge the people who design, ship, and
+            lead intelligent machines in AI and robotics.
           </p>
         </motion.div>
 

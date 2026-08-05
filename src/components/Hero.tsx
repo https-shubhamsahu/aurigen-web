@@ -10,7 +10,7 @@ export default function Hero() {
   return (
     <section
       className="relative min-h-[100svh] flex items-end md:items-center overflow-hidden"
-      aria-label="Aurigen — Build the Future with AI & Robotics"
+      aria-label="Aurigen: Forge builders of intelligent machines"
     >
       {/* Full-bleed visual plane */}
       <div className="absolute inset-0 bg-zinc-950" aria-hidden="true">
@@ -53,14 +53,7 @@ export default function Hero() {
             transition={{ duration: 0.65, delay: 0.08, ease: easeOut }}
             className="text-[2.75rem] sm:text-5xl md:text-6xl lg:text-[4.25rem] font-extrabold leading-[1.05] tracking-tight mb-6"
           >
-            Build the Future with{" "}
-            <span className="relative inline-block">
-              AI &amp; Robotics
-              <span
-                className="absolute bottom-1 left-0 right-0 h-2 md:h-2.5 bg-accent/50 -z-10 rounded-sm"
-                aria-hidden="true"
-              />
-            </span>
+            Forge builders of intelligent machines.
           </motion.h1>
 
           <motion.p
@@ -69,8 +62,9 @@ export default function Hero() {
             transition={{ duration: 0.65, delay: 0.18, ease: easeOut }}
             className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-lg mb-10"
           >
-            We build innovators, engineers, creators, and founders through
-            hands-on AI and robotics — not lectures, not coaching.
+            An engineering institution for AI engineers, robotics innovators,
+            builders, researchers, and founders. Labs. Mentors. Systems that
+            ship.
           </motion.p>
 
           <motion.div
@@ -81,17 +75,17 @@ export default function Hero() {
           >
             <Link href="#contact">
               <Button size="lg" className="w-full sm:w-auto group">
-                Start Building
+                Apply to build
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Button>
             </Link>
-            <Link href="#why">
+            <Link href="#projects">
               <Button
                 variant="outline"
                 size="lg"
                 className="w-full sm:w-auto"
               >
-                Why Aurigen
+                See the work
               </Button>
             </Link>
           </motion.div>

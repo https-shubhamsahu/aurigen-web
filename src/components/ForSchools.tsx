@@ -8,16 +8,16 @@ import { fadeUp, stagger } from "@/lib/motion";
 
 const benefits = [
   {
-    title: "Turnkey lab infrastructure",
-    body: "Curriculum, hardware kits, and teacher enablement — designed as a coherent system, not a toolkit dump.",
+    title: "Lab infrastructure",
+    body: "Hardware kits, standards, and mentor enablement designed as one coherent system.",
   },
   {
-    title: "Curriculum that inspires trust",
-    body: "Standards-aware pathways that still feel like real engineering. Students leave with portfolios, not worksheets.",
+    title: "Standards with portfolios",
+    body: "Pathways that feel like real engineering. Students leave with demos and repositories, not worksheets.",
   },
   {
-    title: "A partner, not a vendor",
-    body: "We work with schools as a long-term platform for AI and robotics capability — measured by student outcomes.",
+    title: "A partner on the lab",
+    body: "We work with schools as a long-term platform for AI and robotics capability, measured by what students ship.",
   },
 ];
 
@@ -25,23 +25,23 @@ export default function ForSchools() {
   return (
     <section
       id="schools"
-      className="py-24 md:py-32 bg-secondary border-t border-border"
+      className="border-t border-border bg-secondary py-16 md:py-24 lg:py-32"
     >
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div {...fadeUp} className="max-w-2xl mb-14">
-          <p className="text-xs font-heading font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-4">
-            For schools
+      <div className="mx-auto max-w-6xl px-6">
+        <motion.div {...fadeUp} className="mb-10 max-w-2xl md:mb-14">
+          <p className="mb-4 text-xs font-heading font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Labs
           </p>
-          <h2 className="text-3xl md:text-5xl font-bold leading-[1.1] mb-5">
-            Bring world-class AI & robotics into your institution.
+          <h2 className="mb-5 text-3xl font-bold leading-[1.1] md:text-5xl">
+            Bring serious AI and robotics into your institution.
           </h2>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-            Partner with Aurigen to deploy labs, license curriculum, and train
-            educators who can mentor builders — not just deliver slides.
+            Partner with Aurigen to deploy labs, adopt standards, and train
+            mentors who forge builders, not slide decks.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 mb-12">
+        <div className="mb-10 grid grid-cols-1 gap-8 md:mb-12 md:grid-cols-3 md:gap-12">
           {benefits.map((b, i) => (
             <motion.div
               key={b.title}
@@ -61,8 +61,8 @@ export default function ForSchools() {
 
         <motion.div {...fadeUp}>
           <Link href="#contact">
-            <Button size="lg" className="group">
-              Partner with Aurigen
+            <Button size="lg" className="group h-12 w-full sm:w-auto">
+              Partner on a lab
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Button>
           </Link>

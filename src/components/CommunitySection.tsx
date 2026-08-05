@@ -6,15 +6,15 @@ import { fadeUp, stagger } from "@/lib/motion";
 const pillars = [
   {
     title: "Builder sprints",
-    body: "Time-boxed challenges where students collaborate under real constraints — then ship demos.",
+    body: "Time-boxed challenges under real constraints. Collaborate, then ship demos.",
   },
   {
-    title: "Peer network",
-    body: "A community of young engineers who share schematics, critique code, and raise each other's bar.",
+    title: "Peer review",
+    body: "Young engineers share schematics, critique code, and raise each other's bar.",
   },
   {
     title: "Showcases",
-    body: "Quarterly presentations to parents, educators, and mentors — practice telling the story of what you built.",
+    body: "Quarterly presentations to parents, educators, and mentors. Evidence first. Story second.",
   },
 ];
 
@@ -22,19 +22,19 @@ export default function CommunitySection() {
   return (
     <section
       id="community"
-      className="py-24 md:py-32 bg-background border-t border-border"
+      className="border-t border-border bg-background py-16 md:py-24 lg:py-32"
     >
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div {...fadeUp} className="max-w-2xl mb-16">
-          <p className="text-xs font-heading font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-4">
-            Community
+      <div className="mx-auto max-w-6xl px-6">
+        <motion.div {...fadeUp} className="mb-10 max-w-2xl md:mb-16">
+          <p className="mb-4 text-xs font-heading font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Cohort
           </p>
-          <h2 className="text-3xl md:text-5xl font-bold leading-[1.1] mb-5">
-            Builders grow faster together.
+          <h2 className="mb-5 text-3xl font-bold leading-[1.1] md:text-5xl">
+            Builders grow faster under shared standards.
           </h2>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-            Innovation is a social practice. Aurigen connects students who share
-            an obsession with making intelligent systems.
+            Aurigen connects students who share a craft: making intelligent
+            systems, reviewing work, and shipping under constraint.
           </p>
         </motion.div>
 

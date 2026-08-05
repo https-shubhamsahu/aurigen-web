@@ -20,7 +20,7 @@ const projects = [
     title: "Smart hydration monitor",
     student: "Sophia R. · 11",
     domain: "Embedded",
-    body: "Capacitive soil sensing with ADC conversion — pulsing alerts when moisture thresholds drop.",
+    body: "Capacitive soil sensing with ADC conversion. Alerts pulse when moisture thresholds drop.",
   },
   {
     title: "Distributed greenhouse net",
@@ -34,19 +34,19 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="py-24 md:py-32 bg-secondary border-t border-border"
+      className="border-t border-border bg-secondary py-16 md:py-24 lg:py-32"
     >
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div {...fadeUp} className="max-w-2xl mb-16">
-          <p className="text-xs font-heading font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-4">
-            Student projects
+      <div className="mx-auto max-w-6xl px-6">
+        <motion.div {...fadeUp} className="mb-10 max-w-2xl md:mb-16">
+          <p className="mb-4 text-xs font-heading font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Work
           </p>
-          <h2 className="text-3xl md:text-5xl font-bold leading-[1.1] mb-5">
-            What they build is the proof.
+          <h2 className="mb-5 text-3xl font-bold leading-[1.1] md:text-5xl">
+            What they build is the evidence.
           </h2>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-            Real systems — wired, programmed, and demonstrated by Aurigen
-            students.
+            Real systems: wired, programmed, and demonstrated. Portfolio over
+            praise.
           </p>
         </motion.div>
 
@@ -60,7 +60,7 @@ export default function Projects() {
               transition={stagger(i)}
               className="border-b border-border py-8 text-left"
             >
-              <div className="flex items-center justify-between gap-4 mb-4">
+              <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                 <span className="text-[11px] font-heading font-semibold uppercase tracking-wider text-accent">
                   {project.domain}
                 </span>

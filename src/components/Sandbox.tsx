@@ -241,10 +241,11 @@ export default function Sandbox() {
             Interactive Simulation
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-heading">
-            Taste the Build Experience
+            Try the build experience
           </h2>
           <p className="text-muted-foreground text-[15px] leading-relaxed">
-            Adjust the variables or switch simulator modules to see how our platform bridges coding, AI logic, and hardware reactions in real time.
+            Adjust variables or switch simulator modules. See how the platform
+            connects coding, AI logic, and hardware reactions in real time.
           </p>
         </div>
 

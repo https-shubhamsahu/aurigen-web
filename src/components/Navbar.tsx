@@ -9,12 +9,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { label: "Why Aurigen", href: "#why" },
-  { label: "How You Learn", href: "#journey" },
-  { label: "Programs", href: "#programs" },
-  { label: "Projects", href: "#projects" },
-  { label: "For Schools", href: "#schools" },
-  { label: "Community", href: "#community" },
+  { label: "Why", href: "/#why" },
+  { label: "Method", href: "/#method" },
+  { label: "Tracks", href: "/#programs" },
+  { label: "Work", href: "/#projects" },
+  { label: "Labs", href: "/#schools" },
+  { label: "About", href: "/about/" },
+  { label: "Apply", href: "/#contact" },
 ];
 
 export default function Navbar() {
@@ -62,20 +63,20 @@ export default function Navbar() {
             aria-label="Primary"
           >
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="px-3 py-2 text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
-            <a href="#contact">
-              <Button size="default">Get Started</Button>
-            </a>
+            <Link href="/#contact">
+              <Button size="default">Apply to build</Button>
+            </Link>
           </div>
 
           <button
@@ -101,24 +102,24 @@ export default function Navbar() {
           >
             <nav className="flex flex-col px-6 py-6 gap-1" aria-label="Mobile">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
                   className="py-3 text-base font-medium text-muted-foreground hover:text-foreground"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
-              <a
-                href="#contact"
+              <Link
+                href="/#contact"
                 onClick={() => setIsOpen(false)}
                 className="pt-4"
               >
                 <Button className="w-full" size="lg">
-                  Get Started
+                  Apply to build
                 </Button>
-              </a>
+              </Link>
             </nav>
           </motion.div>
         )}

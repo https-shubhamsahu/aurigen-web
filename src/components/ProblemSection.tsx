@@ -14,7 +14,7 @@ const contrasts = [
   },
   {
     before: "Grades as the goal",
-    after: "Working prototypes as proof",
+    after: "Working prototypes as evidence",
   },
   {
     before: "Isolated subjects",
@@ -26,21 +26,21 @@ export default function ProblemSection() {
   return (
     <section
       id="problem"
-      className="py-24 md:py-32 bg-secondary border-t border-border"
+      className="border-t border-border bg-secondary py-16 md:py-24 lg:py-32"
     >
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-20">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-20">
           <motion.div {...fadeUp} className="lg:col-span-5">
             <p className="text-xs font-heading font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-4">
-              The problem
+              Problem
             </p>
             <h2 className="text-3xl md:text-4xl font-bold leading-[1.15] mb-5">
-              Traditional education trains for a world that no longer exists.
+              Most training prepares people for a world that no longer exists.
             </h2>
             <p className="text-muted-foreground leading-relaxed">
               Students memorize definitions of neural networks and robotics
-              without ever training a model or wiring a control loop. They leave
-              school fluent in theory — and unprepared to build.
+              without training a model or wiring a control loop. They leave
+              fluent in theory and unprepared to build.
             </p>
           </motion.div>
 

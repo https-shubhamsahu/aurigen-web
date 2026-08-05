@@ -8,23 +8,23 @@ import { fadeUp, stagger } from "@/lib/motion";
 const programs = [
   {
     title: "AI Foundations",
-    focus: "Perception & models",
-    body: "Train and deploy vision models. Understand what neural nets see — then put them to work on real inputs.",
+    focus: "Perception and models",
+    body: "Train and deploy vision models. Learn what neural nets see, then put them to work on real inputs.",
   },
   {
     title: "Robotics Systems",
-    focus: "Motion & control",
+    focus: "Motion and control",
     body: "Design kinematics, sensor fusion, and autonomous behaviors on physical platforms that move through space.",
   },
   {
     title: "Embedded Intelligence",
-    focus: "Hardware & firmware",
-    body: "Wire microcontrollers, read sensors, and write firmware that bridges the digital and physical worlds.",
+    focus: "Hardware and firmware",
+    body: "Wire microcontrollers, read sensors, and write firmware that bridges digital logic and physical machines.",
   },
   {
     title: "Founder Track",
-    focus: "Product & leadership",
-    body: "Take an original idea from sketch to demo — with mentorship on scope, storytelling, and shipping.",
+    focus: "Product and leadership",
+    body: "Take an original idea from sketch to demo. Mentorship covers scope, evidence, and shipping.",
   },
 ];
 
@@ -32,24 +32,24 @@ export default function Programs() {
   return (
     <section
       id="programs"
-      className="py-24 md:py-32 bg-background border-t border-border"
+      className="border-t border-border bg-background py-16 md:py-24 lg:py-32"
     >
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="mx-auto max-w-6xl px-6">
         <motion.div
           {...fadeUp}
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16"
+          className="mb-10 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between"
         >
           <div className="max-w-xl">
             <p className="text-xs font-heading font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-4">
-              Programs
+              Tracks
             </p>
             <h2 className="text-3xl md:text-5xl font-bold leading-[1.1]">
-              Tracks built for makers, not memorization.
+              Formation paths for makers, not memorization.
             </h2>
           </div>
           <p className="text-sm text-muted-foreground max-w-sm leading-relaxed md:text-right">
-            Each path combines curriculum, hardware, and mentorship — oriented
-            around what students create.
+            Each track combines standards, hardware, and mentors. Everything
+            orients around what builders ship.
           </p>
         </motion.div>
 
@@ -61,7 +61,7 @@ export default function Programs() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={stagger(i, 0.05)}
-              className="bg-card p-8 md:p-10 group hover:bg-muted/60 transition-colors"
+              className="group bg-card p-6 transition-colors hover:bg-muted/60 sm:p-8 md:p-10"
             >
               <p className="text-xs font-mono text-muted-foreground mb-3">
                 {program.focus}
@@ -80,9 +80,9 @@ export default function Programs() {
         <div className="mt-10 text-center">
           <Link
             href="#contact"
-            className="text-sm font-medium text-foreground underline underline-offset-4 decoration-border hover:decoration-foreground transition-colors"
+            className="inline-flex min-h-11 items-center text-sm font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
           >
-            Talk to us about the right track
+            Apply to build
           </Link>
         </div>
       </div>

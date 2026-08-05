@@ -45,10 +45,11 @@ export default function LeadForm() {
             Partner with Aurigen
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mb-6 font-heading leading-tight">
-            Bring Future Innovation to Your Institution
+            Bring AI and robotics labs to your institution
           </h2>
           <p className="text-muted-foreground text-[15px] leading-relaxed mb-10">
-            Deploy state-of-the-art AI, Robotics, and IoT laboratories. We supply the hardware, licensing, curriculum blueprints, and teacher-enablement support.
+            Deploy AI, Robotics, and IoT laboratories. We supply the hardware,
+            licensing, curriculum blueprints, and teacher-enablement support.
           </p>
 
           <div className="flex gap-5 mb-8">
@@ -71,7 +72,7 @@ export default function LeadForm() {
             </div>
             <div>
               <h4 className="text-base font-bold font-heading mb-1 text-foreground">
-                Comprehensive Hardware Provision
+                Full hardware provision
               </h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 No sourcing headaches. We design and deliver custom component packages for every classroom seat.

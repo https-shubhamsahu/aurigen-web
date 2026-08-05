@@ -33,33 +33,33 @@ export default function FinalCTA() {
   return (
     <section
       id="contact"
-      className="py-24 md:py-32 bg-secondary border-t border-border"
+      className="border-t border-border bg-secondary py-16 md:py-24 lg:py-32"
     >
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-20">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-20">
           <motion.div {...fadeUp} className="lg:col-span-5">
             <p className="text-xs font-heading font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-4">
-              Get started
+              Apply
             </p>
             <h2 className="text-3xl md:text-4xl font-bold leading-[1.15] mb-5">
-              Tell us who you are — we&apos;ll get you building.
+              Tell us who you are. Build with us.
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-8">
-              Whether you&apos;re a student, parent, school leader, or investor —
-              tell us who you are. We&apos;ll follow up with the right next step.
+              Student, parent, school leader, or investor: share a few details.
+              We will follow up with the right next step.
             </p>
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li className="flex gap-2">
-                <span className="text-accent font-bold">—</span>
-                Students &amp; parents: program fit and enrollment
+                <span className="text-accent font-bold">·</span>
+                Students and parents: track fit and enrollment
               </li>
               <li className="flex gap-2">
-                <span className="text-accent font-bold">—</span>
-                Schools: lab partnerships and curriculum
+                <span className="text-accent font-bold">·</span>
+                Schools: partner on a lab
               </li>
               <li className="flex gap-2">
-                <span className="text-accent font-bold">—</span>
-                Investors: company vision and traction
+                <span className="text-accent font-bold">·</span>
+                Investors: request the brief
               </li>
             </ul>
           </motion.div>
@@ -67,7 +67,7 @@ export default function FinalCTA() {
           <motion.div {...fadeUp} className="lg:col-span-7">
             {done ? (
               <div
-                className="bg-background border border-white/10 p-10 flex flex-col items-start gap-4"
+                className="flex flex-col items-start gap-4 border border-white/10 bg-background p-6 sm:p-10"
                 role="status"
               >
                 <div className="h-9 w-9 border border-accent/40 bg-accent/10 flex items-center justify-center">
@@ -88,7 +88,7 @@ export default function FinalCTA() {
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="bg-background border border-white/10 p-8 md:p-10 space-y-6"
+                className="space-y-6 border border-white/10 bg-background p-6 sm:p-8 md:p-10"
               >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="space-y-2">
@@ -139,7 +139,7 @@ export default function FinalCTA() {
                     rows={4}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Tell us a bit about what you're looking for…"
+                    placeholder="What do you want to build, partner on, or review?"
                     className="flex w-full rounded-md border border-white/10 bg-zinc-950 text-foreground px-3 py-2.5 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 resize-y min-h-[100px]"
                   />
                 </div>
@@ -148,7 +148,7 @@ export default function FinalCTA() {
                   type="submit"
                   size="lg"
                   disabled={isSubmitting}
-                  className="w-full sm:w-auto group"
+                  className="group h-12 w-full sm:w-auto"
                 >
                   {isSubmitting ? (
                     <>
@@ -157,7 +157,7 @@ export default function FinalCTA() {
                     </>
                   ) : (
                     <>
-                      Send message
+                      Build with us
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                     </>
                   )}

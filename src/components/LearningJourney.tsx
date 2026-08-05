@@ -5,44 +5,45 @@ import { fadeUp, stagger } from "@/lib/motion";
 
 const stages = [
   {
-    phase: "Discover",
+    phase: "Orient",
     title: "See how intelligent systems work",
-    body: "Students explore sensors, perception, and control — building intuition before complexity.",
+    body: "Builders explore sensors, perception, and control. Intuition comes before complexity.",
   },
   {
     phase: "Build",
-    title: "Ship working hardware + software",
+    title: "Ship working hardware and software",
     body: "Guided projects turn concepts into rovers, vision pipelines, and connected devices.",
   },
   {
-    phase: "Iterate",
+    phase: "Review",
     title: "Debug, refine, and own the craft",
-    body: "Failure is part of the loop. Learners diagnose, redesign, and improve under mentorship.",
+    body: "Failure is part of the loop. Mentors hold the standard while builders diagnose and redesign.",
   },
   {
     phase: "Lead",
     title: "Create original systems",
-    body: "Advanced builders invent their own products — and present them like founders.",
+    body: "Advanced builders invent their own products and present them like founders.",
   },
 ];
 
 export default function LearningJourney() {
   return (
     <section
-      id="journey"
-      className="py-24 md:py-32 bg-secondary border-t border-border"
+      id="method"
+      className="border-t border-border bg-secondary py-16 md:py-24 lg:py-32"
     >
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div {...fadeUp} className="max-w-2xl mb-16 md:mb-20">
-          <p className="text-xs font-heading font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-4">
-            Learning journey
+      <div className="mx-auto max-w-6xl px-6">
+        <motion.div {...fadeUp} className="mb-12 max-w-2xl md:mb-16 lg:mb-20">
+          <p className="mb-4 text-xs font-heading font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Method
           </p>
-          <h2 className="text-3xl md:text-5xl font-bold leading-[1.1] mb-5">
-            A path from first circuit to original invention.
+          <h2 className="mb-5 text-3xl font-bold leading-[1.1] md:text-5xl">
+            How does Aurigen train builders?
           </h2>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-            Progress is sequential and deliberate — each stage unlocks deeper
-            agency with AI and robotics.
+            Formation runs from first circuit to original invention. Progress is
+            sequential and deliberate. Each stage deepens command of AI,
+            robotics, and systems that ship.
           </p>
         </motion.div>
 

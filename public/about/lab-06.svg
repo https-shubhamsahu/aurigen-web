@@ -1,0 +1,13 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" role="img" aria-label="lab-06.jpg · notebook">
+  <defs>
+    <pattern id="g" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#1f1f1f" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="1200" fill="#111111"/>
+  <rect width="1200" height="1200" fill="url(#g)"/>
+  <rect x="24" y="24" width="1152" height="1152" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+  <line x1="24" y1="1144" x2="1176" y2="1144" stroke="#2a2a2a" stroke-width="1"/>
+  <text x="40" y="1168" font-family="ui-monospace, monospace" font-size="14" fill="#737373">lab-06.jpg · notebook</text>
+  <text x="40" y="52" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" letter-spacing="0.12em" fill="#525252">AURIGEN · ARCHIVE</text>
+</svg>

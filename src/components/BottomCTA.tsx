@@ -15,10 +15,11 @@ export default function BottomCTA() {
           <span>System active. Ready to deploy.</span>
         </div>
         <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 font-heading">
-          Ready to transition from consumer to creator?
+          Ready to move from consumer to creator?
         </h2>
         <p className="text-muted-foreground text-sm md:text-base max-w-xl mx-auto mb-10 leading-relaxed">
-          Launch our web sandbox now to compile scripts, or connect with our team to configure a lab package for your school.
+          Open the web sandbox to compile scripts, or talk with our team to
+          configure a lab package for your school.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

@@ -18,7 +18,7 @@ export default function InnovationLabs() {
     {
       icon: <Cpu className="h-5 w-5" />,
       title: "Component Sourcing Blueprint",
-      desc: "Comprehensive procurement and delivery support for autonomous rovers, sensor modules, actuator shields, and microprocessors.",
+      desc: "Procurement and delivery support for autonomous rovers, sensor modules, actuator shields, and microprocessors.",
     },
   ];
 
@@ -34,7 +34,8 @@ export default function InnovationLabs() {
             Turnkey STEM Deployments
           </h2>
           <p className="text-muted-foreground text-[15px] leading-relaxed mb-10">
-            We transform standard school rooms into professional innovation hubs. We engineer everything from structural workplace safety designs to local server hosting infrastructures.
+            We convert standard school rooms into professional innovation hubs.
+            Scope runs from workplace safety design to local server hosting.
           </p>
 
           <div className="flex flex-col gap-8 w-full">
