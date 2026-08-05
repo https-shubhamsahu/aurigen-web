@@ -42,7 +42,7 @@ export default function FinalCTA() {
               Get started
             </p>
             <h2 className="text-3xl md:text-4xl font-bold leading-[1.15] mb-5">
-              Ready to build the future?
+              Tell us who you are — we&apos;ll get you building.
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-8">
               Whether you&apos;re a student, parent, school leader, or investor —
@@ -67,11 +67,11 @@ export default function FinalCTA() {
           <motion.div {...fadeUp} className="lg:col-span-7">
             {done ? (
               <div
-                className="bg-background border border-white/10 rounded-lg p-10 flex flex-col items-start gap-4"
+                className="bg-background border border-white/10 p-10 flex flex-col items-start gap-4"
                 role="status"
               >
-                <div className="h-10 w-10 rounded-full bg-accent/15 flex items-center justify-center">
-                  <Check className="h-5 w-5 text-accent" />
+                <div className="h-9 w-9 border border-accent/40 bg-accent/10 flex items-center justify-center">
+                  <Check className="h-4 w-4 text-accent" />
                 </div>
                 <h3 className="text-xl font-bold">We received your message.</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
@@ -88,7 +88,7 @@ export default function FinalCTA() {
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="bg-background border border-white/10 rounded-lg p-8 md:p-10 space-y-6"
+                className="bg-background border border-white/10 p-8 md:p-10 space-y-6"
               >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="space-y-2">

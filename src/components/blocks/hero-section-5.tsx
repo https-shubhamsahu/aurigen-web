@@ -3,18 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  Menu,
-  X,
-  ChevronRight,
-  Microscope,
-  Printer,
-  Package,
-  Bot,
-  BookOpen,
-  Users,
-  type LucideIcon,
-} from "lucide-react";
+import { Menu, X, ChevronRight } from "lucide-react";
 import { useScroll, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -28,13 +17,14 @@ const menuItems = [
   { name: "Contact", href: "#contact" },
 ];
 
-const expertiseItems: { label: string; icon: LucideIcon }[] = [
-  { label: "STEM Equipment", icon: Microscope },
-  { label: "3D Printing", icon: Printer },
-  { label: "DIY Kits", icon: Package },
-  { label: "Robotics", icon: Bot },
-  { label: "Planned Syllabus", icon: BookOpen },
-  { label: "Complete Mentoring", icon: Users },
+/** Capabilities as plain text — no lucide-in-circle icon grid. */
+const expertiseItems = [
+  "STEM Equipment",
+  "3D Printing",
+  "DIY Kits",
+  "Robotics",
+  "Planned Syllabus",
+  "Complete Mentoring",
 ];
 
 /** White lockup for dark surfaces — no color-loop animation. */
@@ -92,18 +82,18 @@ export function HeroHeader() {
     <header>
       <nav
         data-state={menuState ? "active" : undefined}
-        className="fixed z-20 w-full pt-2"
+        className={cn(
+          "fixed z-20 w-full border-b transition-colors duration-300",
+          scrolled
+            ? "border-white/10 bg-[#0A0A0A]/90 backdrop-blur-md"
+            : "border-transparent bg-transparent"
+        )}
       >
-        <div
-          className={cn(
-            "mx-auto max-w-7xl rounded-3xl px-6 transition-all duration-300 lg:px-12",
-            scrolled && "bg-zinc-950/85 backdrop-blur-2xl border border-white/10 shadow-black/40"
-          )}
-        >
+        <div className="mx-auto max-w-7xl px-6 lg:px-12">
           <motion.div
             className={cn(
-              "relative flex flex-wrap items-center justify-between gap-6 py-3 duration-200 lg:gap-0 lg:py-6",
-              scrolled && "lg:py-4"
+              "relative flex flex-wrap items-center justify-between gap-6 py-4 duration-200 lg:gap-0",
+              scrolled ? "lg:py-3.5" : "lg:py-5"
             )}
           >
             <div className="flex w-full items-center justify-between gap-12 lg:w-auto">
@@ -142,7 +132,7 @@ export function HeroHeader() {
               </div>
             </div>
 
-            <div className="in-data-[state=active]:block lg:in-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border border-white/10 bg-zinc-950 p-6 shadow-2xl shadow-black/40 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none">
+            <div className="in-data-[state=active]:block lg:in-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 border border-white/10 bg-[#0A0A0A] p-6 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0">
               <div className="lg:hidden">
                 <ul className="space-y-6 text-base">
                   {menuItems.map((item) => (
@@ -297,96 +287,95 @@ export default function HeroSection() {
     <>
       <HeroHeader />
       <div className="overflow-x-hidden bg-[#0A0A0A]">
-        {/* Dark field — Tailark DNA helix tinted amber/yellow (#FFC107 family). */}
+        {/* Full-bleed visual plane — content offset left, art bleeds through. */}
         <section
           aria-label="Aurigen — Build the Future with AI & Robotics"
-          className="relative -mb-px overflow-hidden bg-[#0A0A0A]"
+          className="relative min-h-[100svh] overflow-hidden bg-[#0A0A0A]"
         >
-          <div className="aspect-2/3 relative z-10 flex flex-col justify-end px-6 lg:aspect-video">
-            <div className="mx-auto w-full max-w-7xl pb-6 lg:px-12 lg:pb-32">
-              <div className="max-w-lg">
-                <h1 className="text-balance text-5xl font-extrabold text-white md:text-6xl xl:text-7xl">
-                  Build the Future with AI &amp; Robotics
-                </h1>
-                <p className="mt-6 text-balance text-lg text-zinc-300">
-                  Aurigen builds innovators, engineers, creators, and founders
-                  through hands-on AI and robotics — not lectures, not coaching.
-                </p>
-
-                <div className="mt-8 flex flex-col items-start gap-2 sm:flex-row sm:items-center">
-                  <Link href="#contact">
-                    <Button
-                      size="lg"
-                      className="h-12 rounded-full pl-5 pr-3 text-base group"
-                    >
-                      <span className="text-nowrap">Start Building</span>
-                      <ChevronRight className="ml-1 transition-transform group-hover:translate-x-0.5" />
-                    </Button>
-                  </Link>
-                  <Link href="#why">
-                    <Button
-                      size="lg"
-                      variant="ghost"
-                      className="h-12 rounded-full px-5 text-base text-white hover:bg-white/10 hover:text-white"
-                    >
-                      <span className="text-nowrap">Why Aurigen</span>
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* No border/ring/shadow — avoids light fringe at the rounded clip edge. */}
-          <div className="aspect-2/3 pointer-events-none absolute inset-1 overflow-hidden rounded-3xl bg-[#0A0A0A] lg:aspect-video lg:rounded-[3rem]">
+          {/* Edge-to-edge media (no inset rounded card). */}
+          <div className="pointer-events-none absolute inset-0 bg-[#0A0A0A]">
             <video
               ref={dnaVideoRef}
               autoPlay
               muted
               playsInline
-              // White particles → gold/yellow; blacks stay near-black (no invert/grayscale).
-              // Opacity is also driven by the soft-restart loop (inline style while fading).
               className="size-full -scale-x-100 object-cover opacity-[0.82] [filter:sepia(1)_saturate(7)_hue-rotate(8deg)_brightness(1.08)] will-change-[opacity]"
               src="https://ik.imagekit.io/lrigu76hy/tailark/dna-video.mp4?updatedAt=1745736251477"
             />
-            {/* Reinforces #FFC107 family on bright particles; mix-blend-color keeps blacks black. */}
             <div
               aria-hidden
               className="absolute inset-0 bg-[#FFC107]/35 mix-blend-color"
             />
+            {/* Readability scrim — denser on the content side */}
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A]/90 via-[#0A0A0A]/55 to-[#0A0A0A]/20"
+            />
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/40"
+            />
+          </div>
+
+          <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-7xl grid-cols-1 content-end px-6 pb-16 pt-28 lg:grid-cols-[minmax(0,38rem)_1fr] lg:content-end lg:px-12 lg:pb-28 lg:pt-32">
+            <div className="max-w-lg">
+              <p className="font-heading text-sm font-semibold uppercase tracking-[0.22em] text-white md:text-base">
+                Aurigen
+              </p>
+              <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl xl:text-7xl">
+                Build the Future with AI &amp; Robotics
+              </h1>
+              <p className="mt-6 max-w-md text-balance text-lg leading-relaxed text-zinc-300">
+                Hands-on AI and robotics for innovators, engineers, creators,
+                and founders — not lectures, not coaching.
+              </p>
+
+              <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+                <Link href="#contact">
+                  <Button size="lg" className="group h-12 pl-5 pr-3 text-base">
+                    <span className="text-nowrap">Start Building</span>
+                    <ChevronRight className="ml-1 transition-transform group-hover:translate-x-0.5" />
+                  </Button>
+                </Link>
+                <Link href="#why">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="h-12 px-5 text-base text-white border-white/20 hover:bg-white/10 hover:text-white"
+                  >
+                    <span className="text-nowrap">Why Aurigen</span>
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
 
+        {/* Text strip — breaks the “6 lucide icons in circles” AI fingerprint */}
         <section
           aria-labelledby="our-expertise-heading"
-          className="bg-[#0A0A0A] py-14 md:py-16"
+          className="border-t border-white/10 bg-[#0A0A0A] py-12 md:py-14"
         >
-          <div className="mx-auto max-w-7xl px-6">
-            <div className="flex flex-col items-center text-center">
+          <div className="mx-auto grid max-w-7xl gap-8 px-6 lg:grid-cols-[minmax(0,14rem)_1fr] lg:items-end lg:gap-16 lg:px-12">
+            <div>
               <h2
                 id="our-expertise-heading"
-                className="font-heading text-2xl font-bold tracking-tight text-foreground md:text-3xl"
+                className="font-heading text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground"
               >
-                Our Expertise
+                What we equip
               </h2>
               <div
-                className="mt-3 h-0.5 w-10 rounded-full bg-accent"
+                className="mt-3 h-px w-8 bg-accent"
                 aria-hidden="true"
               />
             </div>
-
-            <ul className="mt-10 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-6 lg:gap-x-6">
-              {expertiseItems.map(({ label, icon: Icon }) => (
+            <ul className="flex flex-wrap items-center gap-x-6 gap-y-3 md:gap-x-8">
+              {expertiseItems.map((label) => (
                 <li
                   key={label}
-                  className="flex flex-col items-center gap-3 text-center"
+                  className="text-sm font-medium text-foreground md:text-[15px]"
                 >
-                  <span className="flex size-12 items-center justify-center rounded-full border border-white/10 bg-zinc-900">
-                    <Icon className="size-5 text-accent" strokeWidth={1.75} />
-                  </span>
-                  <span className="max-w-[9rem] text-sm font-medium leading-snug text-foreground">
-                    {label}
-                  </span>
+                  {label}
                 </li>
               ))}
             </ul>

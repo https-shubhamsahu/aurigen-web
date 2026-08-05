@@ -57,8 +57,8 @@ export default function LearningJourney() {
               className="relative"
             >
               <div className="flex items-center gap-3 mb-4">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-accent-foreground text-xs font-heading font-bold">
-                  {i + 1}
+                <span className="font-mono text-xs font-medium text-accent tabular-nums">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
                 {i < stages.length - 1 && (
                   <span
@@ -67,7 +67,7 @@ export default function LearningJourney() {
                   />
                 )}
               </div>
-              <p className="text-xs font-heading font-semibold uppercase tracking-wider text-accent mb-2">
+              <p className="text-xs font-heading font-semibold uppercase tracking-wider text-muted-foreground mb-2">
                 {stage.phase}
               </p>
               <h3 className="text-lg font-bold mb-2 leading-snug">

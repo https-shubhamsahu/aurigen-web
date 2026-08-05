@@ -53,7 +53,7 @@ export default function Programs() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border border border-border rounded-lg overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border border border-border overflow-hidden">
           {programs.map((program, i) => (
             <motion.div
               key={program.title}

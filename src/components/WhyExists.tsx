@@ -35,7 +35,7 @@ export default function WhyExists() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8">
           {pillars.map((item, i) => (
             <motion.div
               key={item.title}
@@ -43,6 +43,9 @@ export default function WhyExists() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={stagger(i)}
+              className={
+                i === 0 ? "lg:col-span-5" : i === 1 ? "lg:col-span-3" : "lg:col-span-4"
+              }
             >
               <div className="w-8 h-px bg-accent mb-6" aria-hidden="true" />
               <h3 className="text-lg font-bold mb-3">{item.title}</h3>

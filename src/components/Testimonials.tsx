@@ -39,11 +39,11 @@ export default function Testimonials() {
             Voices
           </p>
           <h2 className="text-3xl md:text-5xl font-bold leading-[1.1]">
-            Trusted by students, parents, and schools.
+            What builders say after they ship something real.
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
           {testimonials.map((t, i) => (
             <motion.blockquote
               key={t.name}
@@ -51,9 +51,19 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={stagger(i)}
-              className="flex flex-col justify-between border-t border-border pt-8"
+              className={
+                i === 0
+                  ? "lg:col-span-6 flex flex-col justify-between border-t border-border pt-8"
+                  : "lg:col-span-3 flex flex-col justify-between border-t border-border pt-8"
+              }
             >
-              <p className="text-[15px] leading-relaxed text-foreground mb-8">
+              <p
+                className={
+                  i === 0
+                    ? "text-lg md:text-xl leading-relaxed text-foreground mb-8"
+                    : "text-[15px] leading-relaxed text-foreground mb-8"
+                }
+              >
                 &ldquo;{t.quote}&rdquo;
               </p>
               <footer>

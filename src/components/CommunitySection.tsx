@@ -38,7 +38,7 @@ export default function CommunitySection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 border-t border-border pt-10">
           {pillars.map((p, i) => (
             <motion.div
               key={p.title}
@@ -46,6 +46,9 @@ export default function CommunitySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={stagger(i)}
+              className={
+                i === 0 ? "lg:col-span-5" : i === 1 ? "lg:col-span-3" : "lg:col-span-4"
+              }
             >
               <h3 className="text-lg font-bold mb-3">{p.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">

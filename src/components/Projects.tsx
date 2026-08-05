@@ -50,7 +50,7 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0 border-t border-border">
           {projects.map((project, i) => (
             <motion.article
               key={project.title}
@@ -58,10 +58,10 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={stagger(i)}
-              className="bg-background border border-white/10 rounded-lg p-8 text-left"
+              className="border-b border-border py-8 text-left"
             >
-              <div className="flex items-center justify-between gap-4 mb-6">
-                <span className="text-[11px] font-heading font-semibold uppercase tracking-wider text-muted-foreground">
+              <div className="flex items-center justify-between gap-4 mb-4">
+                <span className="text-[11px] font-heading font-semibold uppercase tracking-wider text-accent">
                   {project.domain}
                 </span>
                 <span className="text-xs text-muted-foreground">

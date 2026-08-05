@@ -41,7 +41,7 @@ export default function ForSchools() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 mb-12">
           {benefits.map((b, i) => (
             <motion.div
               key={b.title}
@@ -49,7 +49,7 @@ export default function ForSchools() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={stagger(i)}
-              className="bg-background border border-white/10 rounded-lg p-7"
+              className="border-l-2 border-accent/70 pl-5"
             >
               <h3 className="text-base font-bold mb-2">{b.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">

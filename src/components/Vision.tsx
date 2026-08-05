@@ -25,7 +25,7 @@ export default function Vision() {
             infrastructure for human potential.
           </p>
           <div className="flex items-center gap-3">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+            <span className="h-px w-8 bg-accent" aria-hidden="true" />
             <p className="text-sm font-heading font-medium tracking-wide text-foreground/80">
               The next founders start here.
             </p>
