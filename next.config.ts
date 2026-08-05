@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
+// Project Pages path hosting needs /aurigen-web. Apex custom domains must use "".
+const basePath = process.env.PAGES_BASE_PATH ?? "";
+
 const nextConfig: NextConfig = {
   output: "export",
+  basePath: basePath || undefined,
   outputFileTracingRoot: process.cwd(),
   images: {
     unoptimized: true,
@@ -13,8 +17,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Project Pages URL is /aurigen-web/; custom domains use root.
-  // Leave basePath empty for custom-domain hosting.
   trailingSlash: true,
 };
 
