@@ -23,6 +23,10 @@
 # misc
 .DS_Store
 *.pem
+.cursor/
+.tmp-logo-verify/
+scripts/probe-dbg.ps1
+debug-*.log
 
 # debug
 npm-debug.log*
