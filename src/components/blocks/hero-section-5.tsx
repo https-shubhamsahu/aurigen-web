@@ -173,15 +173,11 @@ export function HeroHeader() {
   );
 }
 
-/** Seconds of video time scrubbed backward per real second (≈2.5× reverse). */
-const DNA_REVERSE_RATE = 2.5;
-/** Cap reverse seeks at 30fps so the decoder isn't flooded. */
-const DNA_REVERSE_FPS = 30;
-const DNA_REVERSE_FRAME_MS = 1000 / DNA_REVERSE_FPS;
-/** Fixed video-time step per 30fps tick. */
-const DNA_REVERSE_STEP = (1 / DNA_REVERSE_FPS) * DNA_REVERSE_RATE;
-/** Start reverse when this close to the end (avoids ended-event gaps). */
-const DNA_END_EPSILON = 0.12;
+/** Soft dissolve before restarting from the top (avoids hard cuts + reverse seeks). */
+const DNA_FADE_MS = 520;
+/** Begin fade slightly before ended so the dissolve covers the seek. */
+const DNA_END_EPSILON = 0.18;
+const DNA_REST_OPACITY = "0.82";
 
 export default function HeroSection() {
   const dnaVideoRef = React.useRef<HTMLVideoElement>(null);
@@ -200,7 +196,7 @@ export default function HeroSection() {
       });
     };
 
-    // Reduced motion: static first frame — no reverse scrubbing.
+    // Reduced motion: static first frame — no looping.
     if (reducedMotion) {
       video.loop = false;
       video.pause();
@@ -213,17 +209,18 @@ export default function HeroSection() {
       return () => video.removeEventListener("loadedmetadata", showFrame);
     }
 
-    // Forward at normal speed → seek-gated 30fps reverse (one equal step after each seeked).
+    // Forward-only loop: hold → opacity dissolve → seek to start → fade in.
+    // One seek per cycle (cheap) instead of 30fps reverse scrubbing (laggy).
     video.loop = false;
-    let reversing = false;
-    let reverseTimer = 0;
-    let targetTime = 0;
+    video.style.opacity = DNA_REST_OPACITY;
+    let fading = false;
+    let fadeTimer = 0;
     let activeSeekHandler: (() => void) | null = null;
 
-    const clearReverseTimer = () => {
-      if (reverseTimer) {
-        clearTimeout(reverseTimer);
-        reverseTimer = 0;
+    const clearFadeTimer = () => {
+      if (fadeTimer) {
+        clearTimeout(fadeTimer);
+        fadeTimer = 0;
       }
     };
 
@@ -234,76 +231,49 @@ export default function HeroSection() {
       }
     };
 
-    const playForward = () => {
-      reversing = false;
-      clearReverseTimer();
-      detachSeekHandler();
-      video.playbackRate = 1;
-      tryPlay();
-    };
-
-    const scheduleNextReverseFrame = (seekElapsedMs: number) => {
-      if (!reversing) return;
-      const wait = Math.max(0, DNA_REVERSE_FRAME_MS - seekElapsedMs);
-      reverseTimer = window.setTimeout(reverseStep, wait);
-    };
-
-    const reverseStep = () => {
-      if (!reversing) return;
-
-      if (targetTime <= 0) {
-        if (video.currentTime <= 0.01) {
-          playForward();
-          return;
-        }
-        const onZero = () => {
-          detachSeekHandler();
-          playForward();
-        };
-        activeSeekHandler = onZero;
-        video.addEventListener("seeked", onZero);
-        video.currentTime = 0;
-        return;
-      }
-
-      targetTime = Math.max(0, targetTime - DNA_REVERSE_STEP);
-      const t0 = performance.now();
-
-      const onSeeked = () => {
-        detachSeekHandler();
-        if (!reversing) return;
-        const elapsed = performance.now() - t0;
-        if (targetTime <= 0 && video.currentTime <= 0.02) {
-          playForward();
-          return;
-        }
-        scheduleNextReverseFrame(elapsed);
-      };
-
-      activeSeekHandler = onSeeked;
-      video.addEventListener("seeked", onSeeked);
-      video.currentTime = targetTime;
-    };
-
-    const startReverse = () => {
-      if (reversing) return;
-      reversing = true;
-      clearReverseTimer();
-      detachSeekHandler();
+    const softRestart = () => {
+      if (fading) return;
+      fading = true;
       video.pause();
-      targetTime = video.currentTime;
-      reverseStep();
+      video.style.transition = `opacity ${DNA_FADE_MS}ms ease-in-out`;
+      video.style.opacity = "0";
+
+      fadeTimer = window.setTimeout(() => {
+        let resumed = false;
+        const resume = () => {
+          if (resumed) return;
+          resumed = true;
+          detachSeekHandler();
+          tryPlay();
+          // Next frame so the browser applies opacity 0 before fading back in.
+          requestAnimationFrame(() => {
+            video.style.opacity = DNA_REST_OPACITY;
+            fading = false;
+          });
+        };
+
+        if (video.currentTime <= 0.02) {
+          resume();
+          return;
+        }
+
+        activeSeekHandler = resume;
+        video.addEventListener("seeked", resume);
+        video.currentTime = 0;
+        // Some mobile browsers skip seeked; don't leave the hero stuck dark.
+        fadeTimer = window.setTimeout(resume, 400);
+      }, DNA_FADE_MS);
     };
 
     const onTimeUpdate = () => {
-      if (reversing || !video.duration) return;
+      if (fading || !video.duration) return;
       if (video.currentTime >= video.duration - DNA_END_EPSILON) {
-        startReverse();
+        softRestart();
       }
     };
 
     const onEnded = () => {
-      if (!reversing) startReverse();
+      if (!fading) softRestart();
     };
 
     video.addEventListener("timeupdate", onTimeUpdate);
@@ -312,9 +282,11 @@ export default function HeroSection() {
     tryPlay();
 
     return () => {
-      reversing = false;
-      clearReverseTimer();
+      fading = false;
+      clearFadeTimer();
       detachSeekHandler();
+      video.style.transition = "";
+      video.style.opacity = "";
       video.removeEventListener("timeupdate", onTimeUpdate);
       video.removeEventListener("ended", onEnded);
       video.removeEventListener("loadeddata", tryPlay);
@@ -373,7 +345,8 @@ export default function HeroSection() {
               muted
               playsInline
               // White particles → gold/yellow; blacks stay near-black (no invert/grayscale).
-              className="size-full -scale-x-100 object-cover opacity-[0.82] [filter:sepia(1)_saturate(7)_hue-rotate(8deg)_brightness(1.08)]"
+              // Opacity is also driven by the soft-restart loop (inline style while fading).
+              className="size-full -scale-x-100 object-cover opacity-[0.82] [filter:sepia(1)_saturate(7)_hue-rotate(8deg)_brightness(1.08)] will-change-[opacity]"
               src="https://ik.imagekit.io/lrigu76hy/tailark/dna-video.mp4?updatedAt=1745736251477"
             />
             {/* Reinforces #FFC107 family on bright particles; mix-blend-color keeps blacks black. */}
