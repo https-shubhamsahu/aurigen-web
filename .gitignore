@@ -27,6 +27,7 @@
 .tmp-logo-verify/
 scripts/probe-dbg.ps1
 debug-*.log
+src/app/api/debug-log/
 
 # debug
 npm-debug.log*
