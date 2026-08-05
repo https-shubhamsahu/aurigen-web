@@ -32,9 +32,9 @@ jobs:
 
       - name: Build static site
         env:
-          # Required for https://…github.io/aurigen-web/ (and user domain path).
-          # For an apex custom domain (e.g. aurigen.tech), set this to "" and redeploy.
-          PAGES_BASE_PATH: /aurigen-web
+          # Empty for apex custom domain https://aurigen.tech
+          # (project URL https://…github.io/aurigen-web/ needs /aurigen-web instead)
+          PAGES_BASE_PATH: ""
         run: npm run build
 
       - name: Upload Pages artifact

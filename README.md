@@ -22,31 +22,28 @@ Output is written to `out/` (GitHub Pages artifact).
 ## GitHub Pages
 
 - Repo: https://github.com/https-shubhamsahu/aurigen-web
-- Pages URL: https://https-shubhamsahu.github.io/aurigen-web/ (also reported as http://shubham-sahu.me/aurigen-web/)
+- Custom domain: https://aurigen.tech (also www.aurigen.tech)
+- Project URL (legacy): https://https-shubhamsahu.github.io/aurigen-web/
 - Deploy: `.github/workflows/deploy-pages.yml` on every push to `main`
-- CI builds with `PAGES_BASE_PATH=/aurigen-web` so assets work on the project path URL
+- CI builds with empty `PAGES_BASE_PATH` for the apex custom domain
 
-## Custom domain (get.tech)
+## Custom domain DNS (get.tech)
 
-1. In the repo: Settings → Pages → Custom domain, enter your domain (e.g. `aurigen.tech`), **or** add `public/CNAME` with that single line and push.
-2. Set `PAGES_BASE_PATH` to `""` in `.github/workflows/deploy-pages.yml` and push again (apex domains must not use `/aurigen-web`).
-3. At your get.tech DNS panel, create:
+`public/CNAME` is set to `aurigen.tech`. At get.tech, create:
 
-| Type | Host / Name | Value | TTL |
-|------|-------------|-------|-----|
-| **A** | `@` (apex) | `185.199.108.153` | Auto |
-| **A** | `@` (apex) | `185.199.109.153` | Auto |
-| **A** | `@` (apex) | `185.199.110.153` | Auto |
-| **A** | `@` (apex) | `185.199.111.153` | Auto |
-| **AAAA** | `@` (apex) | `2606:50c0:8000::153` | Auto |
-| **AAAA** | `@` (apex) | `2606:50c0:8001::153` | Auto |
-| **AAAA** | `@` (apex) | `2606:50c0:8002::153` | Auto |
-| **AAAA** | `@` (apex) | `2606:50c0:8003::153` | Auto |
+| Record type | Host name | Value | TTL |
+|-------------|-----------|-------|-----|
+| **A** | `@` | `185.199.108.153` | Auto |
+| **A** | `@` | `185.199.109.153` | Auto |
+| **A** | `@` | `185.199.110.153` | Auto |
+| **A** | `@` | `185.199.111.153` | Auto |
+| **AAAA** | `@` | `2606:50c0:8000::153` | Auto |
+| **AAAA** | `@` | `2606:50c0:8001::153` | Auto |
+| **AAAA** | `@` | `2606:50c0:8002::153` | Auto |
+| **AAAA** | `@` | `2606:50c0:8003::153` | Auto |
 | **CNAME** | `www` | `https-shubhamsahu.github.io` | Auto |
 
-3. In GitHub Pages settings, enable **Enforce HTTPS** after DNS propagates (can take minutes to hours).
-
-Replace `aurigen.tech` with your exact get.tech domain when you have it.
+Use `@` for apex and `www` for the subdomain — not the full domain name. Enable **Enforce HTTPS** in GitHub Pages settings after DNS propagates.
 
 ## Constraints
 
