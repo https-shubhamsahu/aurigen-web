@@ -100,7 +100,8 @@ export type Award = {
 
 export type Project = {
   botId: string;
-  robotName: string;
+  /** Omit until the team names a robot. Do not invent one. */
+  robotName?: string;
   teamName: string;
   members: string[];
   college: string;

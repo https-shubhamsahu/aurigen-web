@@ -2,14 +2,134 @@
  * Public builder seed data.
  * Samples use BOT-901+ so they never collide with real BOT-001 assignment.
  * Samples are layout fixtures only. Do not treat them as workshop teams.
- * No phones, emails, or private Drive URLs.
+ * Real BOT-001 to BOT-014 rows are registered workshop teams. First names only.
+ * No phones, emails, WhatsApp, or private Drive URLs.
  */
 
 import { MEDIA_BASE } from "@/lib/workshop-config";
 import { isPublicProjectStatus } from "@/lib/public-data";
 import type { Project } from "@/types/workshop-ecosystem";
 
-export const seedBuilders: Project[] = [
+const REGISTERED_WORKSHOP_NAME = "ESP32 Walking Robot Workshop";
+const REGISTERED_WORKSHOP_ID = "esp32-walking-robot";
+const REGISTERED_DATE = "2026-08-21";
+
+function registeredTeam(input: {
+  botId: string;
+  teamName: string;
+  members: string[];
+  yearBranch: string;
+}): Project {
+  const count = input.members.length;
+  return {
+    botId: input.botId,
+    teamName: input.teamName,
+    members: input.members,
+    college: "TSEC",
+    workshopName: REGISTERED_WORKSHOP_NAME,
+    workshopId: REGISTERED_WORKSHOP_ID,
+    date: REGISTERED_DATE,
+    description: `Registered team of ${count} (${input.yearBranch}) building at the ESP32 Walking Robot workshop organized by Robotics & Automation Club, TSEC. Robot photos and build notes are not published yet.`,
+    features: [],
+    tech: [],
+    images: [],
+    awards: [],
+    score: 0,
+    featured: false,
+    status: "published",
+    isSample: false,
+  };
+}
+
+const registeredWorkshopTeams: Project[] = [
+  registeredTeam({
+    botId: "BOT-001",
+    teamName: "FC ESP 32",
+    members: ["Divyanshu", "Ayush", "Yash", "Rahul", "Nitesh"],
+    yearBranch: "Ece/SY",
+  }),
+  registeredTeam({
+    botId: "BOT-002",
+    teamName: "Pentabotics",
+    members: ["Shree", "Bhumika", "Pratik", "Girishma", "Tanish"],
+    yearBranch: "SYCO-A",
+  }),
+  registeredTeam({
+    botId: "BOT-003",
+    teamName: "Roborush",
+    members: ["Anuj", "Vivek", "Atharva", "Krishna", "Ritvik"],
+    yearBranch: "SYECE",
+  }),
+  registeredTeam({
+    botId: "BOT-004",
+    teamName: "FiveBots",
+    members: ["Anuj", "Divya", "Nidhi", "Dhruv", "Chandan"],
+    yearBranch: "SE-ECE",
+  }),
+  registeredTeam({
+    botId: "BOT-005",
+    teamName: "RoboVortex",
+    members: ["Ruhi", "Yashvi", "Rushabh", "Snehil", "Rishabh"],
+    yearBranch: "CO",
+  }),
+  registeredTeam({
+    botId: "BOT-006",
+    teamName: "varonix",
+    members: ["Yash", "Harsh", "Priyansh"],
+    yearBranch: "SEME",
+  }),
+  registeredTeam({
+    botId: "BOT-007",
+    teamName: "AASRG",
+    members: ["Aryan", "Sachin", "Ganesh", "Rajat", "Aadi"],
+    yearBranch: "SYCO",
+  }),
+  registeredTeam({
+    botId: "BOT-008",
+    teamName: "MechNova",
+    members: ["Diksha", "Kranti", "Rohan", "Nandini", "Ragini"],
+    yearBranch: "SEME",
+  }),
+  registeredTeam({
+    botId: "BOT-009",
+    teamName: "Ctrl + Alt + Defeat",
+    members: ["Yash", "Ritvik", "Shivam", "Harsh", "Akshay"],
+    yearBranch: "SYECE",
+  }),
+  registeredTeam({
+    botId: "BOT-010",
+    teamName: "Titan Tech",
+    members: ["Jasmin", "Asmita"],
+    yearBranch: "2nd/SY-IT",
+  }),
+  registeredTeam({
+    botId: "BOT-011",
+    teamName: "The Thunderbolts",
+    members: ["Akshat", "Yug", "Binay", "Ankit", "Jay"],
+    yearBranch: "SECO-A",
+  }),
+  registeredTeam({
+    botId: "BOT-012",
+    teamName: "The Sixth Sense",
+    members: ["Amilita", "Asavari", "Soham", "Atul", "Panshul"],
+    yearBranch: "SYECE",
+  }),
+  registeredTeam({
+    botId: "BOT-013",
+    teamName: "ROBONEX",
+    // Two members share the first name Anjali in the roster. Last names stay private.
+    members: ["Aditi", "Priyanka", "Anjali", "Shramika", "Anjali"],
+    yearBranch: "TYECE",
+  }),
+  registeredTeam({
+    botId: "BOT-014",
+    teamName: "E-NNOVATORS",
+    members: ["Sai", "Shravani", "Pavni", "Yash", "Kashish"],
+    yearBranch: "TYECE",
+  }),
+];
+
+const layoutSamples: Project[] = [
   {
     botId: "BOT-901",
     robotName: "Stride",
@@ -112,6 +232,16 @@ export const seedBuilders: Project[] = [
     isSample: true,
   },
 ];
+
+export const seedBuilders: Project[] = [
+  ...registeredWorkshopTeams,
+  ...layoutSamples,
+];
+
+export function builderHeadline(project: Project): string {
+  const robot = project.robotName?.trim();
+  return robot || project.teamName;
+}
 
 export function getBuilderByBotId(botId: string): Project | undefined {
   return seedBuilders.find(

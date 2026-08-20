@@ -12,14 +12,14 @@ import { BUILDERS_PATH } from "@/lib/workshop-config";
 import { OG_IMAGE, SITE_NAME, absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "ESP32 Robot Builders | Project Showcase",
+  title: "ESP32 Robot Builders | Registered Teams",
   description:
-    "Public ESP32 walking robot builder profiles from the Robotics & Automation Club, TSEC workshop. Featured teams, hacks, and awards.",
+    "Registered teams from the ESP32 Walking Robot workshop organized by Robotics & Automation Club, TSEC. Public profiles use first names and BOT IDs only.",
   alternates: { canonical: BUILDERS_PATH },
   openGraph: {
-    title: "ESP32 Robot Builders | Project Showcase",
+    title: "ESP32 Robot Builders | Registered Teams",
     description:
-      "Public ESP32 walking robot builder profiles. Real teams appear after the Robotics & Automation Club, TSEC workshop with consent.",
+      "Registered workshop teams from the Robotics & Automation Club, TSEC ESP32 walking robot workshop.",
     type: "website",
     url: absoluteUrl(BUILDERS_PATH),
     siteName: SITE_NAME,
@@ -34,8 +34,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "ESP32 Robot Builders | Project Showcase",
-    description: "ESP32 walking robot builder showcase.",
+    title: "ESP32 Robot Builders | Registered Teams",
+    description:
+      "Registered teams from the Robotics & Automation Club, TSEC ESP32 walking robot workshop.",
     images: [OG_IMAGE.url],
   },
 };
@@ -44,7 +45,8 @@ const webPageJsonLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   name: "ESP32 Robot Builders",
-  description: "Public builder profiles for ESP32 walking robots.",
+  description:
+    "Registered teams from the ESP32 Walking Robot workshop organized by Robotics & Automation Club, TSEC.",
   url: absoluteUrl(BUILDERS_PATH),
 };
 
@@ -69,13 +71,14 @@ export default function BuildersPage() {
             </h1>
             <p className="mt-4 max-w-2xl text-base text-muted-foreground">
               Public profiles only. No phones, emails, or private Drive links.
-              Real teams appear here after consent. Layout samples live behind
-              the Layout samples filter and use BOT-901+.
+              These are registered workshop teams whose robots are not showcased
+              yet. Layout samples live behind the Layout samples filter and use
+              BOT-901+.
             </p>
             <p className="mt-3 text-sm text-muted-foreground">
-              Need a BOT ID? Mentors assign IDs like BOT-001 during check-in.
-              Registration does not create a BOT ID. Workshop organized by
-              Robotics & Automation Club, TSEC.
+              Mentors assign IDs like BOT-001 during check-in. Registration does
+              not create a BOT ID. Workshop organized by Robotics & Automation
+              Club, TSEC.
             </p>
           </div>
         </section>

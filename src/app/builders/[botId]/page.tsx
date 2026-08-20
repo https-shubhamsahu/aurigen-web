@@ -7,7 +7,11 @@ import { AboutHeader } from "@/components/about/AboutHeader";
 import { AwardBadge, BotIdBadge } from "@/components/builders/Badges";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { WorkshopSubnav } from "@/components/workshops/esp32-walking-robot/WorkshopSubnav";
-import { getBuilderByBotId, seedBuilders } from "@/content/builders/seed";
+import {
+  builderHeadline,
+  getBuilderByBotId,
+  seedBuilders,
+} from "@/content/builders/seed";
 import { isPublicProjectStatus } from "@/lib/public-data";
 import { BUILDERS_PATH } from "@/lib/workshop-config";
 import { OG_IMAGE, SITE_NAME, absoluteUrl } from "@/lib/site";
@@ -25,7 +29,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!project) {
     return { title: "Builder not found" };
   }
-  const title = `${project.robotName} · ${project.botId}`;
+  const headline = builderHeadline(project);
+  const title = `${headline} · ${project.botId}`;
   const description = project.isSample
     ? `Layout sample. Not a real workshop team. ${project.description}`
     : project.description;
@@ -67,15 +72,19 @@ export default async function BuilderProfilePage({ params }: Props) {
     notFound();
   }
 
+  const headline = builderHeadline(project);
   const path = `${BUILDERS_PATH}${project.botId}/`;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
-    name: project.robotName,
+    name: headline,
     description: project.description,
     url: absoluteUrl(path),
     identifier: project.botId,
   };
+  const showTeamUnderHeadline =
+    Boolean(project.robotName?.trim()) &&
+    project.robotName?.trim() !== project.teamName;
 
   return (
     <>
@@ -98,15 +107,21 @@ export default async function BuilderProfilePage({ params }: Props) {
                 <span className="text-xs uppercase tracking-wide text-muted-foreground">
                   Layout sample. Not a real team.
                 </span>
-              ) : null}
+              ) : (
+                <span className="text-xs uppercase tracking-wide text-muted-foreground">
+                  Registered team
+                </span>
+              )}
               {project.awards.map((a) => (
                 <AwardBadge key={a.id} label={a.label} />
               ))}
             </div>
             <h1 className="mt-4 font-heading text-4xl font-bold tracking-tight md:text-5xl">
-              {project.robotName}
+              {headline}
             </h1>
-            <p className="mt-2 text-lg text-muted-foreground">{project.teamName}</p>
+            {showTeamUnderHeadline ? (
+              <p className="mt-2 text-lg text-muted-foreground">{project.teamName}</p>
+            ) : null}
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
               {project.description}
             </p>
@@ -116,55 +131,69 @@ export default async function BuilderProfilePage({ params }: Props) {
         <section className="py-12 md:py-16">
           <div className="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
             <div className="space-y-4">
-              {project.images.map((img) => (
-                <div
-                  key={img.id}
-                  className="relative aspect-[4/3] overflow-hidden rounded-md border border-white/10"
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 60vw"
-                  />
+              {project.images.length > 0 ? (
+                project.images.map((img) => (
+                  <div
+                    key={img.id}
+                    className="relative aspect-[4/3] overflow-hidden rounded-md border border-white/10"
+                  >
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 60vw"
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-md border border-white/10 bg-muted px-6 text-center text-sm text-muted-foreground">
+                  Robot photo not published yet
                 </div>
-              ))}
+              )}
             </div>
 
             <div className="space-y-8">
               <MetaBlock title="Team" body={project.members.join(", ")} />
-              <MetaBlock title="College" body={project.college} />
+              {project.college.trim() ? (
+                <MetaBlock title="College" body={project.college} />
+              ) : null}
               <MetaBlock title="Workshop" body={project.workshopName} />
               <MetaBlock title="Date" body={project.date} />
-              <MetaBlock title="Score" body={String(project.score)} />
+              {project.score > 0 ? (
+                <MetaBlock title="Score" body={String(project.score)} />
+              ) : null}
 
-              <div>
-                <h2 className="text-xs font-heading uppercase tracking-wider text-muted-foreground">
-                  Features
-                </h2>
-                <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-                  {project.features.map((f) => (
-                    <li key={f}>• {f}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h2 className="text-xs font-heading uppercase tracking-wider text-muted-foreground">
-                  Tech
-                </h2>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {project.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-sm border border-white/10 px-2 py-1 text-xs text-muted-foreground"
-                    >
-                      {t}
-                    </span>
-                  ))}
+              {project.features.length > 0 ? (
+                <div>
+                  <h2 className="text-xs font-heading uppercase tracking-wider text-muted-foreground">
+                    Features
+                  </h2>
+                  <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                    {project.features.map((f) => (
+                      <li key={f}>• {f}</li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
+              ) : null}
+
+              {project.tech.length > 0 ? (
+                <div>
+                  <h2 className="text-xs font-heading uppercase tracking-wider text-muted-foreground">
+                    Tech
+                  </h2>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {project.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-sm border border-white/10 px-2 py-1 text-xs text-muted-foreground"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
 
               <div className="flex flex-wrap gap-3">
                 {project.githubUrl ? (

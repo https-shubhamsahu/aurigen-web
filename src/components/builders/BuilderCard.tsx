@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Project } from "@/types/workshop-ecosystem";
 import { AwardBadge, BotIdBadge } from "@/components/builders/Badges";
+import { builderHeadline } from "@/content/builders/seed";
 import { fadeUp, stagger } from "@/lib/motion";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -18,6 +19,10 @@ export function BuilderCard({
 }) {
   const reduced = useReducedMotion();
   const image = project.images[0];
+  const headline = builderHeadline(project);
+  const showTeamUnderHeadline =
+    Boolean(project.robotName?.trim()) &&
+    project.robotName?.trim() !== project.teamName;
 
   return (
     <motion.article
@@ -42,8 +47,8 @@ export function BuilderCard({
               sizes="(max-width: 768px) 100vw, 33vw"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-              No image yet
+            <div className="flex h-full items-center justify-center px-4 text-center text-sm text-muted-foreground">
+              Robot photo not published yet
             </div>
           )}
         </div>
@@ -54,18 +59,30 @@ export function BuilderCard({
               <span className="text-[11px] uppercase tracking-wide text-muted-foreground">
                 Sample
               </span>
-            ) : null}
+            ) : (
+              <span className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                Registered
+              </span>
+            )}
             {project.featured ? <AwardBadge label="Featured" /> : null}
           </div>
           <div>
             <h3 className="font-heading text-lg font-semibold tracking-tight">
-              {project.robotName}
+              {headline}
             </h3>
-            <p className="text-sm text-muted-foreground">{project.teamName}</p>
+            {showTeamUnderHeadline ? (
+              <p className="text-sm text-muted-foreground">{project.teamName}</p>
+            ) : null}
           </div>
-          <p className="line-clamp-2 text-sm text-muted-foreground">
-            {project.description}
+          <p className="text-sm text-muted-foreground">
+            {project.members.join(", ")}
           </p>
+          <p className="text-xs text-muted-foreground">{project.workshopName}</p>
+          {project.isSample ? (
+            <p className="line-clamp-2 text-sm text-muted-foreground">
+              {project.description}
+            </p>
+          ) : null}
           {project.awards.length > 0 ? (
             <div className="flex flex-wrap gap-1.5">
               {project.awards.map((a) => (

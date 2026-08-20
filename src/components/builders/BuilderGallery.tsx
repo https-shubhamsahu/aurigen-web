@@ -65,7 +65,7 @@ export function BuilderGallery({
       {filter === "samples" ? (
         <p className="mb-6 text-sm text-muted-foreground">
           These cards are layout fixtures (BOT-901+). They are not workshop
-          teams. Real profiles appear under All after consent.
+          teams. Registered teams appear under All.
         </p>
       ) : null}
 
