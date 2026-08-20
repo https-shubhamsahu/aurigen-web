@@ -19,7 +19,7 @@ export const sevenDayChallenge: Challenge = {
       objective: "Ship a custom face or status screen that feels like your robot.",
       difficulty: "easy",
       resources: [
-        { label: "OLED Animation module", href: `${LAB_PATH}#module-07` },
+        { label: "OLED Eyes module", href: `${LAB_PATH}#module-07` },
       ],
       starterModuleId: "07",
       points: 10,
@@ -54,7 +54,7 @@ export const sevenDayChallenge: Challenge = {
       objective: "Choreograph a short routine with timed servo sequences.",
       difficulty: "medium",
       resources: [
-        { label: "Combined Firmware", href: `${LAB_PATH}#module-09` },
+        { label: "Complete Firmware", href: `${LAB_PATH}#module-09` },
       ],
       starterModuleId: "09",
       points: 14,

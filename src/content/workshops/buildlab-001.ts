@@ -55,8 +55,9 @@ export const buildLabHero = {
 export const buildLabFeatures = [
   "ESP32-C3 Controller",
   "BLE Communication",
-  "0.96\" OLED Display",
-  "4 Servos (direct GPIO)",
+  "0.96\" SH1106 OLED",
+  "4 Servos (GPIO 0, 1, 3, 10)",
+  "Buzzer (GPIO 4)",
   "3.7V Li-ion + holder",
   "Slide switch",
   "Arduino Programmable",
@@ -178,7 +179,7 @@ export const buildLabFaq: BuildLabFaqItem[] = [
   {
     question: "What hardware do we use?",
     answer:
-      "ESP32-C3 expansion board, four servos driven directly by the ESP32-C3 (no PCA9685), a 0.96-inch OLED, one 3.7V Li-ion cell with holder, a slide switch, and optionally a 470µF capacitor.",
+      "ESP32-C3 expansion board, four servos on GPIO 0, 1, 3, 10 (no PCA9685), SH1106 OLED on GPIO 8/9 at 0x3C, buzzer on GPIO 4, one 3.7V Li-ion cell with holder, a slide switch, and optionally a 470µF capacitor on the servo rail.",
   },
   {
     question: "Do I need prior robotics experience?",

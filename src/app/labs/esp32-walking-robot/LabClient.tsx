@@ -4,9 +4,10 @@ import { useEffect } from "react";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import { AboutHeader } from "@/components/about/AboutHeader";
+import { HardwarePanel, ArduinoIdeNotes } from "@/components/labs/HardwarePanel";
 import { CodeModuleCard, LabNav } from "@/components/labs/CodeModuleCard";
 import { WorkshopSubnav } from "@/components/workshops/esp32-walking-robot/WorkshopSubnav";
-import { codeModules, labSections } from "@/content/labs/esp32-walking-robot";
+import { codeModules, hardware, labSections } from "@/content/labs/esp32-walking-robot";
 import { track } from "@/lib/analytics";
 import { WORKSHOP_PATH } from "@/lib/workshop-config";
 
@@ -30,8 +31,12 @@ export function LabClient() {
               ESP32 Walking Robot Code
             </h1>
             <p className="mt-4 max-w-2xl text-base text-muted-foreground">
-              Progressive modules for the ESP32-C3 walking robot. Servos are driven
-              directly by the ESP32-C3. Workshop by Robotics & Automation Club, TSEC.
+              Progressive modules for the current ESP32-C3 walking robot. Servos
+              on GPIO {hardware.pins.servo1}, {hardware.pins.servo2},{" "}
+              {hardware.pins.servo3}, {hardware.pins.servo4}. SH1106 OLED on{" "}
+              {hardware.pins.oledSda} and {hardware.pins.oledScl}. Buzzer on GPIO{" "}
+              {hardware.pins.buzzer}. Real BLE name {hardware.ble.deviceName}.
+              Workshop by Robotics & Automation Club, TSEC.
             </p>
             <p className="mt-3 text-sm text-muted-foreground">
               <Link href={WORKSHOP_PATH} className="text-accent hover:underline">
@@ -40,6 +45,12 @@ export function LabClient() {
             </p>
 
             <div className="mt-8 flex gap-2 overflow-x-auto pb-1 lg:hidden">
+              <a
+                href="#hardware"
+                className="min-h-10 shrink-0 rounded-md border border-white/10 px-3 py-2 font-mono text-xs text-accent"
+              >
+                Hardware
+              </a>
               {codeModules.map((m) => (
                 <a
                   key={m.id}
@@ -83,6 +94,10 @@ export function LabClient() {
         <div className="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[220px_1fr] lg:px-8">
           <LabNav modules={codeModules} />
           <div>
+            <HardwarePanel />
+            <div className="border-b border-white/10 py-8">
+              <ArduinoIdeNotes />
+            </div>
             {codeModules.map((module, index) => (
               <CodeModuleCard key={module.id} module={module} index={index} />
             ))}

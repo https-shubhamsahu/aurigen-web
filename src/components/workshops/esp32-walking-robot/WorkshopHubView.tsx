@@ -128,7 +128,7 @@ export function WorkshopHubView() {
       {/* Robot */}
       <Section id="robot" title="The Robot" eyebrow="Hardware">
         <p className="mb-8 max-w-2xl text-sm text-muted-foreground md:text-base">
-          Four servos are driven directly by the ESP32-C3. No PCA9685. Keep power solid. Keep grounds common.
+          Four servos are driven directly by the ESP32-C3. No PCA9685. OLED is SH1106 on GPIO 8 and 9. Buzzer is GPIO 4. Keep power solid. Keep grounds common.
         </p>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {robotSpecs.map((spec, i) => (

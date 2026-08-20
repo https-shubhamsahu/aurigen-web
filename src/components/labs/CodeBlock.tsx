@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Check, Copy, Download } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { firmwareDownloadPath } from "@/content/labs/esp32-walking-robot/hardware";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
@@ -11,6 +12,7 @@ type CodeBlockProps = {
   language: string;
   code: string;
   className?: string;
+  downloadHref?: string;
 };
 
 export function CodeBlock({
@@ -18,8 +20,10 @@ export function CodeBlock({
   language,
   code,
   className,
+  downloadHref,
 }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
+  const href = downloadHref ?? firmwareDownloadPath(filename);
 
   async function onCopy() {
     try {
@@ -46,20 +50,33 @@ export function CodeBlock({
             {language}
           </p>
         </div>
-        <Button
-          type="button"
-          size="sm"
-          variant="outline"
-          onClick={onCopy}
-          className="shrink-0"
-        >
-          {copied ? <Check /> : <Copy />}
-          {copied ? "Copied" : "Copy"}
-        </Button>
+        <div className="flex shrink-0 items-center gap-2">
+          <a
+            href={href}
+            download={filename}
+            className={buttonVariants({ variant: "outline", size: "sm" })}
+          >
+            <Download />
+            Download
+          </a>
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={onCopy}
+          >
+            {copied ? <Check /> : <Copy />}
+            {copied ? "Copied" : "Copy"}
+          </Button>
+        </div>
       </div>
       <pre className="max-h-[28rem] overflow-auto p-4 text-[12px] leading-relaxed text-zinc-200 sm:text-[13px]">
         <code>{code}</code>
       </pre>
+      <p className="border-t border-white/10 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
+        Open in Arduino IDE: new sketch, paste or open the download, board ESP32C3
+        Dev Module, USB CDC On Boot On, Serial 115200.
+      </p>
     </div>
   );
 }

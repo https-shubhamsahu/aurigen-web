@@ -2,7 +2,7 @@
 
 Official organizer: **Robotics & Automation Club, TSEC**. Aurigen hosts pages and project resources. Aurigen is not the organizer.
 
-Hardware: ESP32-C3, 4 servos on ESP32 GPIO (no PCA9685), 0.96" OLED, 1× 3.7V Li-ion + holder, slide switch, optional 470µF capacitor.
+Hardware: ESP32-C3, 4 servos on GPIO 0/1/3/10 (no PCA9685), 0.96" SH1106 OLED on GPIO 8/9 at 0x3C, buzzer on GPIO 4, 1× 3.7V Li-ion + holder, slide switch, optional 470µF capacitor on the servo rail. BLE advertises as AlbertMini.
 
 Dates: 21-22 August 2026. Day 1 1:00 PM-5:30 PM. Day 2 9:30 AM-4:30 PM. Teams of 1-5.
 
@@ -17,7 +17,7 @@ The college did not allow website registration. Teams signed up through a Google
 | Path | Role |
 |------|------|
 | `/workshops/esp32-walking-robot/` | During-workshop hub (schedule, field guide) |
-| `/labs/esp32-walking-robot/` | Code library |
+| `/labs/esp32-walking-robot/` | Code library. Hardware map is GPIO 0/1/3/10 servos, GPIO 4 buzzer, GPIO 8/9 SH1106. Downloadable sketches: `public/firmware/esp32-walking-robot/` generated from `src/content/labs/esp32-walking-robot/firmware.ts`. |
 | `/builders/` | Roster + Find your BOT ID (14 teams) |
 | `/builders/[botId]/` | Public profile |
 | `/workshops/esp32-walking-robot/vlog/` | Vlog brief + submit to shared Sheet |

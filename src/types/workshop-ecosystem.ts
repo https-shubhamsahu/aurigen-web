@@ -143,6 +143,8 @@ export type CodeModule = {
   commonMistakes: string[];
   nextStep?: string;
   difficulty: "beginner" | "intermediate" | "advanced";
+  /** Shown on the module card. Use for Reference implementation, not final-tested. */
+  badge?: string;
 };
 
 export type VlogSubmission = {

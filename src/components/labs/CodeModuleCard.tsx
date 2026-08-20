@@ -40,6 +40,11 @@ export function CodeModuleCard({
         <span className="text-[11px] uppercase tracking-wide text-muted-foreground">
           {module.difficulty}
         </span>
+        {module.badge ? (
+          <span className="rounded-sm border border-accent/30 px-2 py-0.5 text-[11px] uppercase tracking-wide text-accent">
+            {module.badge}
+          </span>
+        ) : null}
       </div>
 
       <h3 className="font-heading text-2xl font-semibold tracking-tight md:text-3xl">
@@ -133,6 +138,15 @@ export function LabNav({ modules }: { modules: CodeModule[] }) {
         Modules
       </p>
       <ul className="space-y-1">
+        <li>
+          <Link
+            href="#hardware"
+            className="flex min-h-9 items-center gap-2 rounded-sm px-2 text-sm text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
+          >
+            <span className="font-mono text-[11px] text-accent">HW</span>
+            <span className="truncate">Hardware</span>
+          </Link>
+        </li>
         {modules.map((m) => (
           <li key={m.id}>
             <Link

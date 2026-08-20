@@ -1,66 +1,75 @@
 /**
- * Progressive Code Library modules for ESP32-C3 walking robot.
- * Servos driven directly by ESP32-C3 GPIO. No PCA9685.
+ * Progressive Code Library for the current Albert Mini workshop robot.
+ * Pins, BLE, and sketches come from hardware.ts and firmware.ts.
  */
 
 import type { CodeModule } from "@/types/workshop-ecosystem";
+import { coreCommands, funCommands, hardware } from "./hardware";
+import {
+  sketch01,
+  sketch02,
+  sketch03,
+  sketch04,
+  sketch05,
+  sketch06,
+  sketch07,
+  sketch08,
+  sketch09,
+  sketch10,
+  sketch11,
+} from "./firmware";
+
+export { hardware } from "./hardware";
+export { firmwareFiles } from "./firmware";
 
 export const labMeta = {
   title: "ESP32 Walking Robot Code | Aurigen Labs",
   description:
-    "Progressive ESP32-C3 walking robot modules: setup, OLED, servos, gait, BLE, challenges, and troubleshooting.",
+    "Progressive ESP32-C3 walking robot modules for the current Albert Mini kit. SH1106 OLED, direct servo GPIO, real BLE as AlbertMini.",
 };
+
+const p = hardware.pins;
 
 export const codeModules: CodeModule[] = [
   {
     id: "01",
     order: 1,
     slug: "esp32-setup",
-    title: "ESP32 Setup",
+    title: "ESP32-C3 Setup",
     tier: "start-here",
     difficulty: "beginner",
-    objective: "Flash a blink sketch and confirm the ESP32-C3 board is alive.",
+    badge: "Example code",
+    objective:
+      "Install Arduino IDE, select ESP32C3 Dev Module, upload a sketch, and prove Serial works.",
     learn: [
-      "Install ESP32 board support in Arduino IDE",
-      "Select the correct ESP32-C3 board and COM port",
-      "Upload firmware and read Serial output",
+      "Arduino IDE 2 and Espressif ESP32 board support",
+      "Board ESP32C3 Dev Module and the COM port",
+      "USB CDC On Boot for ESP32-C3 Serial",
+      "GPIO numbers come from this kit, not a generic ESP32 pinout",
     ],
     wiring: [
       "USB data cable to the ESP32-C3 expansion board",
-      "No servos required for this module",
+      "No servos, OLED, or buzzer required",
+      `Do not blink LED_BUILTIN. On many C3 boards it is GPIO ${p.oledSda}, which is OLED SDA on this robot.`,
     ],
     code: [
       {
-        filename: "01_esp32_setup.ino",
+        filename: "01_setup.ino",
         language: "cpp",
-        code: `// ESP32-C3 Walking Robot - Module 01: Setup
-// Board: ESP32C3 Dev Module (or your expansion board profile)
-
-void setup() {
-  Serial.begin(115200);
-  pinMode(LED_BUILTIN, OUTPUT);
-  Serial.println("ESP32-C3 online");
-}
-
-void loop() {
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(400);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(400);
-}
-`,
+        code: sketch01,
       },
     ],
     explanation:
-      "This proves toolchain, drivers, and board selection before you touch motors. If blink fails, stop and fix USB or board settings.",
+      "This module only proves the toolchain. Serial at 115200 is the alive check. GPIO assignments for the rest of the lab live in the hardware section. RAC TSEC organizes the workshop. Aurigen hosts this page.",
     expectedResult:
-      "Serial prints ESP32-C3 online. Onboard LED blinks about once per second.",
+      "Serial Monitor prints Albert Mini, Module 01, Serial OK, then heartbeat once a second.",
     commonMistakes: [
-      "Wrong board selected (use ESP32-C3, not classic ESP32)",
+      "Classic ESP32 selected instead of ESP32-C3",
       "Charge-only USB cable",
-      "Wrong COM port",
+      "USB CDC On Boot left disabled so the COM port vanishes after reset",
+      "Blinking LED_BUILTIN and fighting the OLED later",
     ],
-    nextStep: "Wire the OLED and run Module 02.",
+    nextStep: "Wire the SH1106 OLED and run Module 02.",
   },
   {
     id: "02",
@@ -69,124 +78,81 @@ void loop() {
     title: "OLED Test",
     tier: "start-here",
     difficulty: "beginner",
-    objective: "Show text on the 0.96\" OLED over I2C.",
+    badge: "Example code",
+    objective: `Show text on the ${hardware.oled.sizeInches}-inch SH1106 128x64 I2C display at ${hardware.oled.addressHex}.`,
     learn: [
-      "I2C pins on the expansion board",
-      "Adafruit SSD1306 / GFX basics",
-      "Drawing simple text frames",
+      "I2C is two wires plus power and ground",
+      `SDA GPIO ${p.oledSda}, SCL GPIO ${p.oledScl}, address ${hardware.oled.addressHex}`,
+      "Adafruit SH110X is the SH1106 library. Adafruit SSD1306 is the wrong controller.",
     ],
     wiring: [
-      "OLED VCC → 3V3",
-      "OLED GND → GND",
-      "OLED SDA → board SDA (often GPIO8 on ESP32-C3 kits)",
-      "OLED SCL → board SCL (often GPIO9)",
-      "Confirm pin labels on your expansion board silkscreen",
+      "OLED VCC to the logic supply on the expansion board (usually 3.3 V, match silkscreen)",
+      "OLED GND to common GND",
+      `OLED SDA to GPIO ${p.oledSda}`,
+      `OLED SCL to GPIO ${p.oledScl}`,
+      `I2C address ${hardware.oled.addressHex}`,
     ],
     code: [
       {
-        filename: "02_oled_test.ino",
+        filename: "02_oled.ino",
         language: "cpp",
-        code: `#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
-#define OLED_ADDR 0x3C
-
-// Adjust if your expansion board uses different I2C pins
-#define I2C_SDA 8
-#define I2C_SCL 9
-
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
-
-void setup() {
-  Serial.begin(115200);
-  Wire.begin(I2C_SDA, I2C_SCL);
-
-  if (!display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR)) {
-    Serial.println("OLED not found");
-    while (true) delay(1000);
-  }
-
-  display.clearDisplay();
-  display.setTextSize(1);
-  display.setTextColor(SSD1306_WHITE);
-  display.setCursor(0, 0);
-  display.println("ESP32-C3");
-  display.println("Walking Robot");
-  display.println("OLED OK");
-  display.display();
-}
-
-void loop() {}
-`,
+        code: sketch02,
       },
     ],
     explanation:
-      "The OLED is your debug surface. Get I2C working before complex motion code.",
-    expectedResult: "Screen shows ESP32-C3 / Walking Robot / OLED OK.",
+      `Install Adafruit GFX, Adafruit SH110X, and Adafruit BusIO. Call Wire.begin(${p.oledSda}, ${p.oledScl}) then display.begin(${hardware.oled.addressHex}, true). Serial should print OLED init OK. The panel should show Albert Mini and SH1106 OLED OK.`,
+    expectedResult:
+      `Serial: Module 02 OLED SH1106, then OLED init OK. Screen: Albert Mini, SH1106 OLED OK, SDA GPIO ${p.oledSda}, SCL GPIO ${p.oledScl}, addr ${hardware.oled.addressHex}.`,
     commonMistakes: [
-      "Wrong I2C pins for your board",
-      "Address 0x3C vs 0x3D",
-      "Missing pull-ups (most modules include them)",
+      "Installing Adafruit SSD1306 for a SH1106 panel",
+      "SDA and SCL swapped",
+      `Address 0x3D on a module that is ${hardware.oled.addressHex}`,
+      "Forgetting display.display()",
     ],
-    nextStep: "Attach one servo and run Module 03.",
+    nextStep: "Attach four servo signal wires and run Module 03.",
   },
   {
     id: "03",
     order: 3,
     slug: "servo-test",
-    title: "Servo Test",
+    title: "Four Servo Test",
     tier: "workshop",
     difficulty: "beginner",
-    objective: "Drive a single servo with ESP32Servo on a GPIO pin.",
+    badge: "Example code",
+    objective:
+      "Attach all four servos on the current GPIOs, center them, and move them from Serial.",
     learn: [
-      "ESP32 PWM servo control",
-      "Safe angle ranges",
-      "Why power and signal grounds must share GND",
+      "ESP32Servo PWM on the ESP32-C3. No PCA9685.",
+      "Commands S1 90, S2 90, S3 90, S4 90",
+      "GPIO is signal. The servo rail is power.",
     ],
     wiring: [
-      "Servo signal → GPIO2 (example; match your loom)",
-      "Servo V+ → battery positive (not flimsy USB-only power under load)",
-      "Servo GND → common GND with ESP32-C3",
-      "Optional 470µF across battery rails near the board",
+      `Servo 1 signal GPIO ${p.servo1}`,
+      `Servo 2 signal GPIO ${p.servo2}`,
+      `Servo 3 signal GPIO ${p.servo3} (this is not the buzzer)`,
+      `Servo 4 signal GPIO ${p.servo4}`,
+      "Each servo VCC to the servo power rail. Each servo GND to common GND.",
+      `Buzzer stays on GPIO ${p.buzzer}. Do not plug a servo there.`,
+      "Optional 470 µF across the servo rail near the board.",
     ],
     code: [
       {
         filename: "03_servo_test.ino",
         language: "cpp",
-        code: `#include <ESP32Servo.h>
-
-// Direct GPIO. No PCA9685.
-const int SERVO_PIN = 2;
-Servo leg;
-
-void setup() {
-  Serial.begin(115200);
-  leg.setPeriodHertz(50);
-  leg.attach(SERVO_PIN, 500, 2400);
-  Serial.println("Servo test");
-}
-
-void loop() {
-  leg.write(60);
-  delay(700);
-  leg.write(120);
-  delay(700);
-}
-`,
+        code: sketch03,
       },
     ],
     explanation:
-      "ESP32-C3 generates servo PWM on GPIO. Keep angles gentle until the mechanics are assembled.",
-    expectedResult: "Servo sweeps between two positions smoothly.",
+      "SERVOS ARE POWERED FROM THE SERVO POWER RAIL. ESP32 GPIO PROVIDES THE CONTROL SIGNAL. DO NOT POWER A SERVO FROM A GPIO PIN. Type S1 90 in Serial. Then S1 70 and S1 110. Repeat for S2, S3, S4. CENTER sends all four to 90.",
+    expectedResult:
+      "All four servos hold center after boot. Named Serial commands move only that servo. Serial prints the GPIO that moved.",
     commonMistakes: [
       "Powering four servos from USB alone",
       "Missing common ground",
-      "Angles that bind the mechanical linkage",
+      "Using the old map GPIO 2, 3, 4, 5",
+      `Driving a servo on GPIO ${p.buzzer}, which is the buzzer on this robot`,
     ],
-    nextStep: "Calibrate all four servos in Module 04.",
+    nextStep: "Set servoOffsets in Module 04.",
   },
   {
     id: "04",
@@ -195,75 +161,37 @@ void loop() {
     title: "Servo Calibration",
     tier: "workshop",
     difficulty: "beginner",
-    objective: "Find neutral standing angles for all four servos.",
+    badge: "Example code",
+    objective:
+      "Find mechanical zero for S1-S4 using servoOffsets[4]. Do not copy another robot's numbers.",
     learn: [
-      "Neutral pose mapping",
-      "Named pin constants",
-      "Serial-assisted tuning",
+      "Center, horn alignment, mechanical zero",
+      "Minimum and maximum safe angles",
+      "Why each servo needs its own offset",
     ],
     wiring: [
-      "Map four servo signals to four GPIOs on the expansion board",
-      "Example map: FL=2, FR=3, RL=4, RR=5 (replace with your pinout)",
-      "Shared battery power and GND",
+      `S1 GPIO ${p.servo1}, S2 GPIO ${p.servo2}, S3 GPIO ${p.servo3}, S4 GPIO ${p.servo4}`,
+      "Same power rules as Module 03",
+      "Calibrate on a charged cell with the slide switch on",
     ],
     code: [
       {
-        filename: "04_servo_calibration.ino",
+        filename: "04_calibration.ino",
         language: "cpp",
-        code: `#include <ESP32Servo.h>
-
-const int PIN_FL = 2;
-const int PIN_FR = 3;
-const int PIN_RL = 4;
-const int PIN_RR = 5;
-
-// Tune these until the robot stands square
-int NEUTRAL_FL = 90;
-int NEUTRAL_FR = 90;
-int NEUTRAL_RL = 90;
-int NEUTRAL_RR = 90;
-
-Servo fl, fr, rl, rr;
-
-void attachAll() {
-  fl.setPeriodHertz(50); fr.setPeriodHertz(50);
-  rl.setPeriodHertz(50); rr.setPeriodHertz(50);
-  fl.attach(PIN_FL, 500, 2400);
-  fr.attach(PIN_FR, 500, 2400);
-  rl.attach(PIN_RL, 500, 2400);
-  rr.attach(PIN_RR, 500, 2400);
-}
-
-void stand() {
-  fl.write(NEUTRAL_FL);
-  fr.write(NEUTRAL_FR);
-  rl.write(NEUTRAL_RL);
-  rr.write(NEUTRAL_RR);
-}
-
-void setup() {
-  Serial.begin(115200);
-  attachAll();
-  stand();
-  Serial.println("Standing at neutrals. Edit NEUTRAL_* and reflash.");
-}
-
-void loop() {
-  stand();
-  delay(1000);
-}
-`,
+        code: sketch04,
       },
     ],
     explanation:
-      "Calibration is mechanical truth. Write down your neutrals. Gait code depends on them.",
-    expectedResult: "Robot stands level without leaning or scraping.",
+      "Put horns on at CENTER so the legs look square. Then trim with O1 5 style commands. Output angle is command plus offset, then clamped to SERVO_MIN and SERVO_MAX. Write the four offsets down. Gait code depends on them.",
+    expectedResult:
+      "Robot stands square at CENTER. Serial shows cmd, offset, and out for each move.",
     commonMistakes: [
-      "Mirrored left/right horns mounted wrong",
-      "Skipping written notes of final angles",
+      "Forcing every robot to use offset 0 forever",
       "Calibrating with a dying battery",
+      "Skipping the horn alignment step",
+      "Using FL=2 FR=3 labels from an older GPIO map",
     ],
-    nextStep: "Build a basic step in Module 05.",
+    nextStep: "Build named poses in Module 05.",
   },
   {
     id: "05",
@@ -272,212 +200,104 @@ void loop() {
     title: "Basic Movement",
     tier: "workshop",
     difficulty: "intermediate",
-    objective: "Lift one diagonal pair and shift the body forward.",
+    badge: "Example code",
+    objective:
+      "Move from one servo at a time to named robot poses. A pose is not a walk.",
     learn: [
-      "Diagonal gait idea",
-      "Timed sequences",
-      "Small deltas from neutral",
+      "Individual control, then coordinated angles, then poses",
+      "CENTER STAND REST SIT DOWN",
+      "A gait is a sequence of poses over time. That is Module 06.",
     ],
     wiring: ["Same four-servo loom as Module 04"],
     code: [
       {
-        filename: "05_basic_movement.ino",
+        filename: "05_poses.ino",
         language: "cpp",
-        code: `#include <ESP32Servo.h>
-
-const int PIN_FL = 2, PIN_FR = 3, PIN_RL = 4, PIN_RR = 5;
-int N_FL = 90, N_FR = 90, N_RL = 90, N_RR = 90;
-
-Servo fl, fr, rl, rr;
-
-void attachAll() {
-  fl.setPeriodHertz(50); fr.setPeriodHertz(50);
-  rl.setPeriodHertz(50); rr.setPeriodHertz(50);
-  fl.attach(PIN_FL, 500, 2400);
-  fr.attach(PIN_FR, 500, 2400);
-  rl.attach(PIN_RL, 500, 2400);
-  rr.attach(PIN_RR, 500, 2400);
-}
-
-void writeAll(int a, int b, int c, int d) {
-  fl.write(a); fr.write(b); rl.write(c); rr.write(d);
-}
-
-void stand() { writeAll(N_FL, N_FR, N_RL, N_RR); }
-
-void stepForward() {
-  // Lift FL + RR
-  writeAll(N_FL - 20, N_FR, N_RL, N_RR - 20);
-  delay(200);
-  // Push body
-  writeAll(N_FL - 10, N_FR + 10, N_RL - 10, N_RR - 10);
-  delay(200);
-  stand();
-  delay(200);
-  // Lift FR + RL
-  writeAll(N_FL, N_FR - 20, N_RL - 20, N_RR);
-  delay(200);
-  writeAll(N_FL + 10, N_FR - 10, N_RL - 10, N_RR + 10);
-  delay(200);
-  stand();
-}
-
-void setup() {
-  Serial.begin(115200);
-  attachAll();
-  stand();
-  delay(800);
-}
-
-void loop() {
-  stepForward();
-  delay(400);
-}
-`,
+        code: sketch05,
       },
     ],
     explanation:
-      "Start with tiny angle deltas. Increase only after the robot stays upright.",
-    expectedResult: "Robot inches forward without collapsing.",
+      "Type CENTER, STAND, REST, SIT, DOWN. STAND matches CENTER until you change it. REST, SIT, and DOWN are conservative offsets from center. If a pose binds, lower the deltas. Keep SERVO_MIN and SERVO_MAX.",
+    expectedResult:
+      "Each command name holds a still pose. The robot does not walk by itself.",
     commonMistakes: [
-      "Huge angles that tip the frame",
-      "Delays too short for the mechanics",
-      "Neutrals still wrong from Module 04",
+      "Calling a single servo sweep a gait",
+      "Huge sit angles that tip the frame",
+      "Offsets still wrong from Module 04",
     ],
-    nextStep: "Turn the step into a repeatable gait in Module 06.",
+    nextStep: "Turn poses into a timed gait in Module 06.",
   },
   {
     id: "06",
     order: 6,
     slug: "robot-gait",
-    title: "Robot Gait",
+    title: "Quadruped Gait",
     tier: "workshop",
     difficulty: "intermediate",
-    objective: "Package walk cycles into reusable functions with speed control.",
+    badge: "Example code",
+    objective:
+      "Run a conservative two-beat diagonal gait with named, tunable parameters.",
     learn: [
-      "Gait functions",
-      "Speed vs stability tradeoff",
-      "Safe stop / stand",
+      "Stance phase vs swing phase",
+      "Diagonal pairing, timing, step height, stride as STEP_ANGLE",
+      "SERVO_MIN and SERVO_MAX as hard limits",
+      "Interpolation here is a stepped pose sequence. Tune slowly.",
     ],
-    wiring: ["Four servos on calibrated GPIOs"],
+    wiring: ["Four servos on S1-S4 GPIOs. Battery on. Switch on."],
     code: [
       {
-        filename: "06_robot_gait.ino",
+        filename: "06_gait.ino",
         language: "cpp",
-        code: `#include <ESP32Servo.h>
-
-const int PIN_FL = 2, PIN_FR = 3, PIN_RL = 4, PIN_RR = 5;
-int N_FL = 90, N_FR = 90, N_RL = 90, N_RR = 90;
-int paceMs = 180;
-
-Servo fl, fr, rl, rr;
-
-void attachAll() {
-  fl.setPeriodHertz(50); fr.setPeriodHertz(50);
-  rl.setPeriodHertz(50); rr.setPeriodHertz(50);
-  fl.attach(PIN_FL, 500, 2400);
-  fr.attach(PIN_FR, 500, 2400);
-  rl.attach(PIN_RL, 500, 2400);
-  rr.attach(PIN_RR, 500, 2400);
-}
-
-void pose(int a, int b, int c, int d) {
-  fl.write(a); fr.write(b); rl.write(c); rr.write(d);
-  delay(paceMs);
-}
-
-void stand() { pose(N_FL, N_FR, N_RL, N_RR); }
-
-void walkCycle() {
-  pose(N_FL - 18, N_FR + 6, N_RL + 6, N_RR - 18);
-  pose(N_FL - 8, N_FR + 12, N_RL - 8, N_RR - 8);
-  pose(N_FL, N_FR, N_RL, N_RR);
-  pose(N_FL + 6, N_FR - 18, N_RL - 18, N_RR + 6);
-  pose(N_FL + 12, N_FR - 8, N_RL - 8, N_RR + 12);
-  pose(N_FL, N_FR, N_RL, N_RR);
-}
-
-void setup() {
-  Serial.begin(115200);
-  attachAll();
-  stand();
-}
-
-void loop() {
-  walkCycle();
-}
-`,
+        code: sketch06,
       },
     ],
     explanation:
-      "paceMs is your main stability knob. Slow first. Speed later.",
-    expectedResult: "Continuous walking with a recoverable stand pose.",
+      "STEP_TIME is the delay between phases. STEP_ANGLE is how far a swing moves from CENTER_ANGLE. SERVO_MIN and SERVO_MAX clamp every write. This is a teaching gait, not a claimed competition gait. Send STOP to freeze in stand. Send WALK BACK LEFT RIGHT to run the same four-servo gait. BLE is Module 08.",
+    expectedResult:
+      "Repeatable stepping you can stop. Robot stays inside the angle limits.",
     commonMistakes: [
-      "Tuning speed before balance",
-      "No stand() recovery after crashes",
+      "Raising STEP_ANGLE before STAND is stable",
+      "STEP_TIME so short the mechanics cannot follow",
+      "Treating this sketch as validated arena choreography",
     ],
-    nextStep: "Animate the OLED in Module 07.",
+    nextStep: "Give the SH1106 a face in Module 07.",
   },
   {
     id: "07",
     order: 7,
     slug: "oled-animation",
-    title: "OLED Animation",
+    title: "OLED Eye Expressions",
     tier: "challenge",
     difficulty: "intermediate",
-    objective: "Show a blinking face while the robot is idle or walking.",
-    learn: ["Frame timing", "Simple facial states", "Non-blocking friendly patterns"],
-    wiring: ["OLED on I2C as in Module 02", "Servos optional for this sketch"],
+    badge: "Example code",
+    objective:
+      "Draw neutral, happy, angry, sleepy, and blink faces on the SH1106 with Adafruit GFX.",
+    learn: [
+      "Frame timing and a status line",
+      "GFX circles and lines compile against Adafruit SH110X",
+      "Do not publish an unverified RoboEyes API",
+    ],
+    wiring: [
+      `OLED SH1106 SDA GPIO ${p.oledSda}, SCL GPIO ${p.oledScl}, addr ${hardware.oled.addressHex}`,
+      "Servos optional for this sketch",
+    ],
     code: [
       {
-        filename: "07_oled_animation.ino",
+        filename: "07_eyes.ino",
         language: "cpp",
-        code: `#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-
-#define I2C_SDA 8
-#define I2C_SCL 9
-Adafruit_SSD1306 display(128, 64, &Wire, -1);
-
-void faceOpen() {
-  display.clearDisplay();
-  display.drawCircle(40, 28, 10, SSD1306_WHITE);
-  display.drawCircle(88, 28, 10, SSD1306_WHITE);
-  display.fillCircle(40, 28, 3, SSD1306_WHITE);
-  display.fillCircle(88, 28, 3, SSD1306_WHITE);
-  display.drawLine(48, 48, 80, 48, SSD1306_WHITE);
-  display.display();
-}
-
-void faceBlink() {
-  display.clearDisplay();
-  display.drawLine(30, 28, 50, 28, SSD1306_WHITE);
-  display.drawLine(78, 28, 98, 28, SSD1306_WHITE);
-  display.drawLine(48, 48, 80, 48, SSD1306_WHITE);
-  display.display();
-}
-
-void setup() {
-  Wire.begin(I2C_SDA, I2C_SCL);
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-  faceOpen();
-}
-
-void loop() {
-  faceOpen();
-  delay(900);
-  faceBlink();
-  delay(120);
-}
-`,
+        code: sketch07,
       },
     ],
     explanation:
-      "Personality is a product feature. Teams that ship faces stand out in the arena.",
-    expectedResult: "Eyes blink on a loop.",
-    commonMistakes: ["Blocking delays starving walk loops", "Cluttered full-screen redraws"],
-    nextStep: "Add BLE commands in Module 08.",
+      "Serial words NEUTRAL HAPPY ANGRY SLEEPY change the face. Blink is automatic. This uses Adafruit GFX on SH1106 so it can compile with the same libraries as Module 02.",
+    expectedResult:
+      "Eyes on the 128x64 panel. Status text on the bottom row. Blink every few seconds.",
+    commonMistakes: [
+      "Copying SSD1306 color constants into this sketch",
+      "Adding a RoboEyes library that does not match this hardware",
+      "Blocking delays so long the face never updates",
+    ],
+    nextStep: "Add real BLE in Module 08.",
   },
   {
     id: "08",
@@ -486,117 +306,74 @@ void loop() {
     title: "BLE Control",
     tier: "workshop",
     difficulty: "intermediate",
-    objective: "Accept simple BLE UART commands to stand or walk.",
-    learn: ["NimBLE or ESP32 BLE UART patterns", "Command parsing", "Fail-safe stand"],
-    wiring: ["Fully assembled robot", "Phone with a BLE serial app"],
+    badge: "Reference implementation",
+    objective: `Advertise as ${hardware.ble.deviceName}. Accept real BLE writes. Parse core robot commands.`,
+    learn: [
+      "Phone to BLE to ESP32-C3 to parser to robot action",
+      "Nordic-style UART service with RX and TX characteristics",
+      "Serial Monitor is a labeled debug fallback. It is not BLE.",
+    ],
+    wiring: [
+      "Fully assembled robot on battery",
+      "Phone with nRF Connect or a BLE UART terminal",
+      `Write ASCII to RX ${hardware.ble.rxUuid}`,
+    ],
     code: [
       {
         filename: "08_ble_control.ino",
         language: "cpp",
-        code: `// Simplified BLE command stub for ESP32-C3.
-// Install a BLE UART library matching your Arduino-ESP32 core
-// (e.g. ESP32 BLE Arduino examples) and merge with gait functions.
-
-#include <ESP32Servo.h>
-
-const int PIN_FL = 2, PIN_FR = 3, PIN_RL = 4, PIN_RR = 5;
-int N_FL = 90, N_FR = 90, N_RL = 90, N_RR = 90;
-Servo fl, fr, rl, rr;
-String cmd;
-
-void stand() {
-  fl.write(N_FL); fr.write(N_FR); rl.write(N_RL); rr.write(N_RR);
-}
-
-void setup() {
-  Serial.begin(115200);
-  fl.attach(PIN_FL, 500, 2400);
-  fr.attach(PIN_FR, 500, 2400);
-  rl.attach(PIN_RL, 500, 2400);
-  rr.attach(PIN_RR, 500, 2400);
-  stand();
-  Serial.println("BLE merge point: map RX text to commands");
-  Serial.println("Commands: STAND / WALK");
-}
-
-void handle(const String& c) {
-  if (c == "STAND") stand();
-  if (c == "WALK") Serial.println("Call walkCycle() here");
-}
-
-void loop() {
-  // Replace Serial with BLE UART RX when library is linked
-  while (Serial.available()) {
-    char ch = Serial.read();
-    if (ch == '\\n') {
-      cmd.trim();
-      handle(cmd);
-      cmd = "";
-    } else {
-      cmd += ch;
-    }
-  }
-}
-`,
+        code: sketch08,
       },
     ],
     explanation:
-      "Keep motion functions pure. BLE only sends verbs. Stand is always available.",
-    expectedResult: "STAND / WALK commands trigger matching behavior.",
+      `Core commands in this sketch: ${coreCommands.join(" ")}. PUSHUPS SWING GALLOP are complete firmware only (Module 09). If Serial WALK works and the phone does not, debug BLE. If both fail, debug the parser or hardware.`,
+    expectedResult:
+      `Phone scan sees ${hardware.ble.deviceName}. A write of WALK starts the gait. STOP returns to center. Serial can send the same words and prints [serial debug].`,
     commonMistakes: [
-      "Blocking BLE callbacks with long delays",
-      "No stand fail-safe",
+      "Calling a Serial-only sketch BLE",
+      "Blocking inside the BLE onWrite callback with multi-second delays",
+      "Looking for a different advertised name",
     ],
-    nextStep: "Merge OLED + gait + BLE in Module 09.",
+    nextStep: "Merge eyes, fun modes, and the full parser in Module 09.",
   },
   {
     id: "09",
     order: 9,
     slug: "combined-firmware",
-    title: "Combined Robot Firmware",
+    title: "Complete Robot Firmware",
     tier: "workshop",
     difficulty: "advanced",
-    objective: "Ship a baseline workshop firmware structure teams can fork.",
-    learn: ["File structure", "State machine sketch", "Workshop baseline"],
-    wiring: ["Full robot: ESP32-C3, 4 servos, OLED, battery, switch"],
+    badge: "Reference implementation",
+    objective:
+      "Run one sketch with servos, SH1106 eyes, BLE, buzzer, poses, gait, and the command parser.",
+    learn: [
+      "One parser for BLE and Serial",
+      "Core commands plus optional fun modes in the same sketch",
+      "OLED status shows BLE vs Serial path",
+    ],
+    wiring: [
+      `S1 GPIO ${p.servo1}, S2 GPIO ${p.servo2}, S3 GPIO ${p.servo3}, S4 GPIO ${p.servo4}`,
+      `Buzzer GPIO ${p.buzzer}`,
+      `OLED SH1106 SDA ${p.oledSda} SCL ${p.oledScl}`,
+      "Battery, slide switch, common GND. Optional 470 µF on the servo rail.",
+    ],
     code: [
       {
-        filename: "09_combined_robot.ino",
+        filename: "09_complete.ino",
         language: "cpp",
-        code: `// Workshop baseline structure (ESP32-C3 direct servos)
-// Expand with your calibrated neutrals + walkCycle + OLED frames.
-
-enum Mode { MODE_STAND, MODE_WALK, MODE_DANCE };
-Mode mode = MODE_STAND;
-
-void setupRobot() {
-  // attach servos, init OLED, optional BLE
-}
-
-void updateStand() { /* neutrals */ }
-void updateWalk() { /* walkCycle */ }
-void updateDance() { /* challenge hook */ }
-
-void setup() {
-  Serial.begin(115200);
-  setupRobot();
-}
-
-void loop() {
-  switch (mode) {
-    case MODE_STAND: updateStand(); break;
-    case MODE_WALK: updateWalk(); break;
-    case MODE_DANCE: updateDance(); break;
-  }
-}
-`,
+        code: sketch09,
       },
     ],
     explanation:
-      "A tiny state machine keeps challenges from becoming spaghetti.",
-    expectedResult: "Clear modes you can switch from Serial or BLE.",
-    commonMistakes: ["Copy-pasting three full sketches with conflicting pins"],
-    nextStep: "Pick a challenge from Module 10.",
+      `This is a reference implementation. It is not labeled final-tested. Core: ${coreCommands.join(" ")}. Complete firmware only: ${funCommands.join(" ")}. Debug: INFO. No PCA9685. No empty skeleton.`,
+    expectedResult:
+      "Boot beeps, eyes draw, BLE advertises AlbertMini, Serial accepts the same words, OLED status row updates.",
+    commonMistakes: [
+      "Pasting three old sketches with GPIO 2-5 still in them",
+      "Calling this final firmware without compiling on your board",
+      "Adding a servo driver board this kit does not use",
+    ],
+    nextStep: "Pick one challenge in Module 10.",
   },
   {
     id: "10",
@@ -605,29 +382,23 @@ void loop() {
     title: "Challenges",
     tier: "challenge",
     difficulty: "advanced",
-    objective: "Pick one arena challenge and ship it cleanly.",
-    learn: ["Scope control", "Demo readiness", "Feature cut lines"],
-    wiring: ["Stable walk first, then challenge hardware/software only"],
+    badge: "Workshop challenges",
+    objective: "Pick one challenge. Ship it. Do not start all eight at once.",
+    learn: [
+      "Goal, starting module, hint, expected behavior, optional extension",
+      "Judges notice a demo you can restart",
+    ],
+    wiring: ["Stable walk first. Then add only the hardware that challenge needs."],
     code: [
       {
         filename: "10_challenges.md",
         language: "markdown",
-        code: `# Challenge menu
-
-1. Servo Challenge: smoother motion, less jitter
-2. OLED Challenge: expressive face + battery status
-3. BLE Challenge: at least three reliable commands
-4. Robot Personality: idle animations that feel alive
-5. Hack the Robot: one bold custom feature
-6. Robot Arena: compete with what you actually finished
-
-Rule: one primary challenge for judging. Extras are bonus.
-`,
+        code: sketch10,
       },
     ],
     explanation:
-      "Finished beats fancy. Judges notice reliability.",
-    expectedResult: "A demo you can restart in under 30 seconds.",
+      "Each challenge points at a module. Hints are short. Full solutions are not published here on purpose.",
+    expectedResult: "One demo you can restart in under 30 seconds.",
     commonMistakes: ["Starting three challenges and finishing none"],
     nextStep: "Use Module 11 when something breaks.",
   },
@@ -638,42 +409,33 @@ Rule: one primary challenge for judging. Extras are bonus.
     title: "Troubleshooting",
     tier: "start-here",
     difficulty: "beginner",
-    objective: "Debug power, wiring, and firmware failures systematically.",
-    learn: ["Power first", "Signal second", "Code third", "Mechanics last"],
-    wiring: ["Recheck battery polarity, switch, common GND, servo plugs"],
+    badge: "Field guide",
+    objective:
+      "Debug power, wiring, OLED, servos, BLE, and gait using SYMPTOM, CAUSE, CHECK, FIX.",
+    learn: [
+      "Power first, signal second, code third, mechanics last",
+      "BLE drop vs ESP32 reset",
+      "Serial path vs BLE path",
+    ],
+    wiring: [
+      "Recheck battery polarity, slide switch, common GND, servo plugs",
+      `S3 is GPIO ${p.servo3}. Buzzer is GPIO ${p.buzzer}.`,
+    ],
     code: [
       {
         filename: "11_troubleshooting.md",
         language: "markdown",
-        code: `# Debug order
-
-1. Battery voltage under load
-2. Slide switch actually on
-3. Common GND between battery rail and ESP32
-4. One servo alone on known-good GPIO
-5. OLED I2C scan
-6. Neutral angles on paper
-7. Reduce gait deltas by half
-
-# Symptoms
-
-- Brownout / reboot while walking: power or missing capacitor
-- One leg dead: signal wire or attach pin
-- OLED blank: I2C pins / address
-- Spins in place: mirrored neutrals
-
-# Never
-
-Do not add an external PCA9685 for this workshop kit.
-Servos are driven directly by the ESP32-C3.
-`,
+        code: sketch11,
       },
     ],
     explanation:
-      "Most arena failures are power and calibration, not clever code.",
-    expectedResult: "A checklist you can run in two minutes.",
-    commonMistakes: ["Rewriting gait before measuring battery voltage"],
-    nextStep: "Return to the hub and ship your builder profile.",
+      "If Serial shows a reboot after a step, investigate power before BLE code. Optional 470 µF is bulk stabilization. Power switching and rails are as on the expansion board.",
+    expectedResult: "A two-minute checklist that matches this kit.",
+    commonMistakes: [
+      "Rewriting gait before measuring the cell under load",
+      "Assuming every BLE drop is a UUID mistake",
+    ],
+    nextStep: "Return to the workshop hub and ship your builder profile.",
   },
 ];
 
@@ -685,25 +447,25 @@ export const labSections = [
   {
     id: "start-here",
     title: "Start Here",
-    detail: "Board bring-up and first sensors.",
+    detail: "Board bring-up, OLED, and debug.",
     tier: "start-here" as const,
   },
   {
     id: "workshop",
     title: "Workshop Version",
-    detail: "Baseline path used during Day 1 and Day 2.",
+    detail: "Servos, poses, gait, BLE, complete reference firmware.",
     tier: "workshop" as const,
   },
   {
     id: "challenge",
     title: "Challenge Version",
-    detail: "Personality, hacks, and arena extras.",
+    detail: "Eyes, arena extras, and the challenge menu.",
     tier: "challenge" as const,
   },
   {
     id: "community",
     title: "Community Contributions",
-    detail: "Team forks and improvements land here later.",
+    detail: "Team forks land here later.",
     tier: "community" as const,
   },
 ] as const;

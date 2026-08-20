@@ -40,11 +40,12 @@ export const workshop: Workshop = {
   philosophy: ["Build", "Program", "Debug", "Customize", "Compete"],
   hardware: [
     "ESP32-C3 expansion board",
-    "4 servos (driven directly by ESP32-C3)",
-    "0.96\" OLED display",
+    "4 servos driven directly by ESP32-C3 GPIO 0, 1, 3, 10",
+    "0.96\" SH1106 OLED on GPIO 8/9 at 0x3C",
+    "Buzzer on GPIO 4",
     "1× 3.7V Li-ion cell + holder",
     "Slide switch",
-    "Optional 470µF capacitor",
+    "Optional 470µF capacitor on the servo rail",
   ],
   path: WORKSHOP_PATH,
 };
@@ -87,7 +88,7 @@ export const fieldGuideLinks = [
   },
   {
     title: "Code library",
-    detail: "ESP32-C3 modules from first boot to gait. No PCA9685.",
+    detail: "ESP32-C3 modules from first boot to AlbertMini BLE. Direct servo GPIO. No PCA9685.",
     href: LAB_PATH,
   },
   {
@@ -107,7 +108,7 @@ export const workshopOverview = {
   body: [
     "Organized by the Robotics & Automation Club, TSEC. Aurigen hosts this site. Aurigen is not the organizer.",
     "Over two days you build a walking robot from parts to first steps.",
-    "You wire the ESP32-C3, drive four servos directly (no PCA9685), light up the OLED, and ship working firmware.",
+    "You wire the ESP32-C3, drive four servos directly (no PCA9685), light the SH1106 OLED, and ship working firmware.",
     "This site does not take registrations. Find your team on the Builders page.",
   ],
 };
@@ -115,27 +116,32 @@ export const workshopOverview = {
 export const robotSpecs = [
   {
     title: "ESP32-C3",
-    detail: "Controller and BLE brain. Servos attach to GPIO pins directly.",
+    detail:
+      "Controller and BLE brain. Advertises as AlbertMini. Servo signals attach to GPIO 0, 1, 3, and 10.",
   },
   {
     title: "4 Servos",
-    detail: "One per leg joint set. Timed PWM from the ESP32-C3. No external servo driver board.",
+    detail:
+      "Direct PWM from the ESP32-C3. No PCA9685. GPIO is signal only. Power comes from the servo rail.",
   },
   {
-    title: "0.96\" OLED",
-    detail: "Status, faces, and personality for your robot.",
+    title: "0.96\" SH1106 OLED",
+    detail: "128x64 I2C. SDA GPIO 8, SCL GPIO 9, address 0x3C. Not SSD1306.",
+  },
+  {
+    title: "Buzzer",
+    detail:
+      "GPIO 4. That pin is not a servo on this robot. Older pages that used GPIO 4 as a servo do not match this kit.",
   },
   {
     title: "Power",
-    detail: "3.7V Li-ion with holder and slide switch. Optional bulk capacitor for servo spikes.",
-  },
-  {
-    title: "Mechanics",
-    detail: "Lightweight frame. Balance, stance, and gait come from your code.",
+    detail:
+      "3.7V Li-ion, holder, slide switch. Rails as on the expansion board. Optional 470µF for servo spikes. Spikes can drop BLE.",
   },
   {
     title: "BLE",
-    detail: "Wireless commands once the walk firmware is stable.",
+    detail:
+      "Real BLE UART-style RX. Phone sends WALK STOP CENTER LEFT RIGHT BACK REST BEEP. Serial is debug only.",
   },
 ] as const;
 
@@ -175,7 +181,7 @@ export const postWorkshopNote = {
 export const ecosystemLinks = [
   {
     title: "Code Library",
-    detail: "Progressive ESP32-C3 modules from setup to gait.",
+    detail: "Progressive ESP32-C3 modules from setup to AlbertMini BLE.",
     href: LAB_PATH,
   },
   {
@@ -230,7 +236,7 @@ export const workshopFaq = [
   {
     question: "What hardware do we use?",
     answer:
-      "ESP32-C3 expansion board, four servos driven directly by the ESP32-C3 (no PCA9685), a 0.96-inch OLED, a 3.7V Li-ion cell with holder, a slide switch, and optionally a 470µF capacitor.",
+      "ESP32-C3 expansion board, four servos on GPIO 0, 1, 3, 10 (no PCA9685), SH1106 OLED on GPIO 8/9 at 0x3C, buzzer on GPIO 4, a 3.7V Li-ion cell with holder, a slide switch, and optionally a 470µF capacitor on the servo rail.",
   },
   {
     question: "What is the team size?",
@@ -244,7 +250,7 @@ export const workshopFaq = [
   {
     question: "Where do we find code?",
     answer:
-      "Use the Code Library at /labs/esp32-walking-robot/. Modules cover setup through challenges and troubleshooting.",
+      "Use the Code Library at /labs/esp32-walking-robot/. Hardware map first, then modules 01 through 11. BLE advertises as AlbertMini.",
   },
 ] as const;
 
