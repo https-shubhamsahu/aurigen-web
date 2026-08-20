@@ -11,7 +11,6 @@ import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 function matchesFilter(project: Project, filter: BuilderFilterId): boolean {
-  if (filter === "samples") return Boolean(project.isSample);
   if (project.isSample) return false;
   if (filter === "all") return true;
   if (filter === "featured") return project.featured;
@@ -26,24 +25,21 @@ function matchesFilter(project: Project, filter: BuilderFilterId): boolean {
 
 export function BuilderGallery({
   projects,
-  samples,
 }: {
   projects: Project[];
-  samples: Project[];
 }) {
   const [filter, setFilter] = useState<BuilderFilterId>("all");
   const [query, setQuery] = useState("");
-  const pool = filter === "samples" ? samples : projects;
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return pool.filter((p) => {
+    return projects.filter((p) => {
       if (!matchesFilter(p, filter)) return false;
       if (!q) return true;
       const hay = [p.botId, p.teamName, ...p.members].join(" ").toLowerCase();
       return hay.includes(q);
     });
-  }, [pool, filter, query]);
+  }, [projects, filter, query]);
 
   return (
     <div>
@@ -81,13 +77,6 @@ export function BuilderGallery({
           </button>
         ))}
       </div>
-
-      {filter === "samples" ? (
-        <p className="mb-6 text-sm text-muted-foreground">
-          These cards are layout fixtures (BOT-901+). They are not workshop
-          teams. Roster teams appear under All.
-        </p>
-      ) : null}
 
       {visible.length === 0 ? (
         <BuilderEmptyState filter={filter} />

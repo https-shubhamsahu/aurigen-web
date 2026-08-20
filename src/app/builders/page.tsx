@@ -4,10 +4,7 @@ import { AboutHeader } from "@/components/about/AboutHeader";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { BuilderGallery } from "@/components/builders/BuilderGallery";
 import { WorkshopSubnav } from "@/components/workshops/esp32-walking-robot/WorkshopSubnav";
-import {
-  listLayoutSampleBuilders,
-  listPublicBuilders,
-} from "@/content/builders/seed";
+import { listPublicBuilders } from "@/content/builders/seed";
 import { BUILDERS_PATH } from "@/lib/workshop-config";
 import { OG_IMAGE, SITE_NAME, absoluteUrl } from "@/lib/site";
 
@@ -52,7 +49,6 @@ const webPageJsonLd = {
 
 export default function BuildersPage() {
   const projects = listPublicBuilders();
-  const samples = listLayoutSampleBuilders();
 
   return (
     <>
@@ -82,7 +78,7 @@ export default function BuildersPage() {
         </section>
         <section className="py-12 md:py-16">
           <div className="mx-auto max-w-6xl px-6 lg:px-8">
-            <BuilderGallery projects={projects} samples={samples} />
+            <BuilderGallery projects={projects} />
           </div>
         </section>
         </main>

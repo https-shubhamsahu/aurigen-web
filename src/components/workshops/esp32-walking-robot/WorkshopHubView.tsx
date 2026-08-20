@@ -90,7 +90,7 @@ export function WorkshopHubView() {
           >
             <Image
               src={workshopMedia.hero}
-              alt="ESP32 walking robot workshop"
+              alt="Yellow ESP32 walking robot with OLED face and four 3D-printed legs"
               fill
               priority
               className="object-cover"
@@ -174,7 +174,7 @@ export function WorkshopHubView() {
           <div className="relative aspect-[4/3] overflow-hidden rounded-md border border-white/10">
             <Image
               src={workshopMedia.robot1}
-              alt="Walking robot build"
+              alt="Close-up of a yellow ESP32 walking robot with OLED status screen and blue micro-servos"
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"

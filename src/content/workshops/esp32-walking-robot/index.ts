@@ -50,11 +50,11 @@ export const workshop: Workshop = {
 };
 
 export const workshopMedia = {
-  hero: `${MEDIA_BASE}/hero.webp`,
+  hero: `${MEDIA_BASE}/hero.jpg`,
   poster: `${MEDIA_BASE}/poster.png`,
   racLogo: `${MEDIA_BASE}/rac-logo.webp`,
-  robot1: `${MEDIA_BASE}/robot-1.webp`,
-  robot2: `${MEDIA_BASE}/robot-2.webp`,
+  robot1: `${MEDIA_BASE}/robot-1.jpg`,
+  robot2: `${MEDIA_BASE}/robot-2.jpg`,
   showcase1: `${MEDIA_BASE}/showcase-1.webp`,
   showcase2: `${MEDIA_BASE}/showcase-2.webp`,
   winner: `${MEDIA_BASE}/winner.webp`,

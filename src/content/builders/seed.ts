@@ -256,7 +256,7 @@ export function listPublicBuilders(): Project[] {
   );
 }
 
-/** Layout fixtures only. Never present these as workshop results. */
+/** Layout fixtures only. Kept for internal preview. Not shown on the public gallery. */
 export function listLayoutSampleBuilders(): Project[] {
   return seedBuilders.filter(
     (p) => isPublicProjectStatus(p.status) && p.isSample,
@@ -271,7 +271,6 @@ export const builderFilters = [
   { id: "best-hack", label: "Best Hack" },
   { id: "fast-learner", label: "Fast Learner" },
   { id: "innovation", label: "Innovation" },
-  { id: "samples", label: "Layout samples" },
 ] as const;
 
 export type BuilderFilterId = (typeof builderFilters)[number]["id"];

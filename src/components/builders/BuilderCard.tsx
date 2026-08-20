@@ -103,7 +103,7 @@ export function BuilderEmptyState({
   className?: string;
   filter?: string;
 }) {
-  const isAward = Boolean(filter && filter !== "all" && filter !== "samples");
+  const isAward = Boolean(filter && filter !== "all");
   return (
     <div
       className={cn(
@@ -117,7 +117,7 @@ export function BuilderEmptyState({
       <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
         {isAward
           ? "No consented team matches this filter yet. Awards appear after the workshop."
-          : "Public profiles appear after teams receive a BOT ID and consent to publish. Mentors assign IDs like BOT-001 at check-in. Use Layout samples only to preview card design."}
+          : "Public profiles appear after teams receive a BOT ID and consent to publish. Mentors assign IDs like BOT-001 at check-in."}
       </p>
     </div>
   );
