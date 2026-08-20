@@ -172,6 +172,6 @@ export function getWhatsAppHref(message?: string): string {
   const number = getWhatsAppNumber();
   const text =
     message ??
-    "Hi Aurigen, I have a question about BuildLab #001 (ESP32 Walking Robot).";
+    "Hi, I have a question about the ESP32 Walking Robot Workshop (RAC TSEC).";
   return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 }

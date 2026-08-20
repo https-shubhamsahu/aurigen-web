@@ -22,25 +22,25 @@ export const buildLabMedia = {
 } as const;
 
 export const buildLabMeta = {
-  name: "Aurigen BuildLab #001",
+  name: "ESP32 Walking Robot Workshop",
   title: "Build Your Own ESP32 Walking Robot",
   subtitle:
     "Build, program, and take home your own walking robot while learning real robotics through hands-on engineering.",
   tagline: "Build. Program. Walk. Take It Home.",
   description:
-    "Join Aurigen BuildLab #001. Assemble a real quadruped robot, program it with Arduino IDE, calibrate it, and take home a working robot you built yourself.",
+    "Hands-on ESP32 walking robot workshop by the Robotics & Automation Club, TSEC. Assemble a quadruped, program it with Arduino IDE, calibrate it, and take home a working robot. Aurigen hosts project resources for teams who keep building.",
 };
 
 export const buildLabHero = {
   headline: "Build Your Own ESP32 Walking Robot",
   support:
-    "Join Aurigen BuildLab #001 and experience robotics the way it should be learned. Assemble a real quadruped robot, program it using Arduino IDE, calibrate it, and take home a fully functional robot built entirely by you.",
+    "A Robotics & Automation Club, TSEC workshop. Assemble a real quadruped robot, program it using Arduino IDE, calibrate it, and take home a fully functional robot built entirely by you. Project resources continue on Aurigen.",
   badges: [
+    "21-22 August 2026",
+    "Teams of 1-5",
     "Beginner Friendly",
-    "Hands-on Learning",
     "Take Home Robot",
-    "Limited Seats",
-    "ESP32 Powered",
+    "ESP32-C3",
   ] as const,
   floatingChips: [
     "ESP32 Powered",
@@ -49,16 +49,16 @@ export const buildLabHero = {
     "Hands-on Workshop",
   ] as const,
   primaryCta: { label: "Register Now", href: "#register" },
-  secondaryCta: { label: "Watch Robot Demo", href: "#gallery" },
+  secondaryCta: { label: "Open Workshop Hub", href: "/workshops/esp32-walking-robot/" },
 };
 
 export const buildLabFeatures = [
-  "ESP32-S3 Controller",
-  "Bluetooth Communication",
-  "OLED Display",
-  "Servo Powered Legs",
-  "Rechargeable Battery",
-  "Open Source Design",
+  "ESP32-C3 Controller",
+  "BLE Communication",
+  "0.96\" OLED Display",
+  "4 Servos (direct GPIO)",
+  "3.7V Li-ion + holder",
+  "Slide switch",
   "Arduino Programmable",
   "Take-home Robot",
 ] as const;
@@ -71,7 +71,7 @@ export const buildLabTopics = [
   "OLED Displays",
   "Electronics Basics",
   "Robot Assembly",
-  "Bluetooth Communication",
+  "BLE Communication",
   "Debugging",
   "Calibration",
   "Engineering Thinking",
@@ -105,9 +105,8 @@ export const buildLabIncluded = [
   "Hands-on Mentorship",
   "Workshop Resources",
   "Source Code",
-  "Certificate of Participation",
   "Take-home Robot",
-  "Aurigen Community Access",
+  "Access to Aurigen project resources",
 ] as const;
 
 export type BuildLabMentor = {
@@ -162,6 +161,26 @@ export type BuildLabFaqItem = {
 
 export const buildLabFaq: BuildLabFaqItem[] = [
   {
+    question: "Who organizes this workshop?",
+    answer:
+      "The Robotics & Automation Club at Thakur Shyamnarayan Engineering College (TSEC). Aurigen hosts the registration page and project resources. Aurigen is not the organizer.",
+  },
+  {
+    question: "When is the workshop?",
+    answer:
+      "Day 1: 21 August 2026, 1:00 PM to 5:30 PM. Day 2: 22 August 2026, 9:30 AM to 4:30 PM.",
+  },
+  {
+    question: "What is the team size?",
+    answer:
+      "Minimum 1 member. Maximum 5 members. Mentors assign one BOT ID (BOT-001, BOT-002, ...) per team at check-in. Registration does not create a BOT ID.",
+  },
+  {
+    question: "What hardware do we use?",
+    answer:
+      "ESP32-C3 expansion board, four servos driven directly by the ESP32-C3 (no PCA9685), a 0.96-inch OLED, one 3.7V Li-ion cell with holder, a slide switch, and optionally a 470µF capacitor.",
+  },
+  {
     question: "Do I need prior robotics experience?",
     answer:
       "No. BuildLab #001 is designed for beginners. Mentors guide you from first assembly through calibration.",
@@ -196,7 +215,7 @@ export const buildLabFaq: BuildLabFaqItem[] = [
 export const buildLabFinalCta = {
   headline: "Ready to Build Your First Robot?",
   support:
-    "Join Aurigen BuildLab #001 and start your robotics journey by building something real.",
+    "Register for the ESP32 Walking Robot Workshop by Robotics & Automation Club, TSEC. Then keep building with the Aurigen code library and builder tools.",
   primary: { label: "Reserve Your Seat", href: "#register" },
 };
 

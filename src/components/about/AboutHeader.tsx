@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import { useScroll, motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { buildLabPath } from "@/content/workshops/buildlab-001";
+import { WORKSHOP_PATH } from "@/lib/workshop-config";
 
 const menuItems = [
   { name: "Why", href: "/#why" },
@@ -16,7 +16,7 @@ const menuItems = [
   { name: "Tracks", href: "/#programs" },
   { name: "Work", href: "/#projects" },
   { name: "Labs", href: "/#schools" },
-  { name: "BuildLab", href: buildLabPath },
+  { name: "Workshop", href: WORKSHOP_PATH },
   { name: "About", href: "/about/" },
   { name: "Apply", href: "/#contact" },
 ];
@@ -44,8 +44,12 @@ function Logo() {
 
 function isActive(pathname: string, href: string): boolean {
   if (href.startsWith("/#")) return false;
-  if (href === buildLabPath) {
-    return pathname.startsWith("/workshops/buildlab-001");
+  if (href === WORKSHOP_PATH) {
+    return (
+      pathname.startsWith("/workshops/esp32-walking-robot") ||
+      pathname.startsWith("/labs/esp32-walking-robot") ||
+      pathname.startsWith("/builders")
+    );
   }
   if (href === "/about/") {
     return pathname.startsWith("/about");
@@ -169,13 +173,16 @@ export function AboutHeader() {
                   href={
                     pathname.startsWith("/workshops/buildlab-001")
                       ? "#register"
-                      : "/#contact"
+                      : pathname.startsWith("/workshops/esp32-walking-robot")
+                        ? "/workshops/buildlab-001/#register"
+                        : "/#contact"
                   }
                   onClick={() => setMenuState(false)}
                   className="w-full sm:w-auto"
                 >
                   <Button size="lg" className="h-11 w-full sm:w-auto">
-                    {pathname.startsWith("/workshops/buildlab-001")
+                    {pathname.startsWith("/workshops/buildlab-001") ||
+                    pathname.startsWith("/workshops/esp32-walking-robot")
                       ? "Reserve Seat"
                       : "Apply"}
                   </Button>

@@ -244,18 +244,24 @@ function sendStaffNotification_(payload, emailKey) {
 }
 
 function sendParticipantConfirmation_(payload, emailKey) {
-  var subject = "Aurigen BuildLab #001: registration received";
+  var subject = "ESP32 Walking Robot Workshop: registration received";
   var body = [
     "Hi " + payload.fullName + ",",
     "",
-    "We received your registration for Aurigen BuildLab #001:",
-    "Build Your Own ESP32 Walking Robot.",
+    "We received your registration for the ESP32 Walking Robot Workshop.",
+    "Organizer: Robotics & Automation Club, TSEC.",
+    "Dates: 21-22 August 2026.",
+    "",
+    "Day 1: 21 August 2026, 1:00 PM to 5:30 PM.",
+    "Day 2: 22 August 2026, 9:30 AM to 4:30 PM.",
+    "Teams: 1 to 5 members. Mentors assign a BOT ID at check-in.",
     "",
     "Our team will follow up with next steps by email or WhatsApp.",
     "",
-    "Build. Program. Walk. Take It Home.",
+    "Workshop hub:",
+    "https://aurigen.tech/workshops/esp32-walking-robot/",
     "",
-    "Aurigen",
+    "Registration page:",
     "https://aurigen.tech/workshops/buildlab-001/",
   ].join("\n");
 

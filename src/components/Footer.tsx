@@ -24,7 +24,9 @@ const columns = [
     title: "Company",
     links: [
       { label: "About", href: "/about/" },
-      { label: "BuildLab", href: "/workshops/buildlab-001/" },
+      { label: "ESP32 Workshop", href: "/workshops/esp32-walking-robot/" },
+      { label: "Builders", href: "/builders/" },
+      { label: "Code Library", href: "/labs/esp32-walking-robot/" },
       { label: "FAQ", href: "/about/#faq" },
       { label: "Future", href: "/#vision" },
       { label: "Apply", href: "/#contact" },

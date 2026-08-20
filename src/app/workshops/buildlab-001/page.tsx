@@ -27,6 +27,7 @@ import {
   buildLabMentors,
   buildLabPath,
 } from "@/content/workshops/buildlab-001";
+import { workshop } from "@/content/workshops/esp32-walking-robot";
 import { OG_IMAGE, SITE_NAME, absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -38,6 +39,9 @@ export const metadata: Metadata = {
     "ESP32",
     "walking robot",
     "robotics workshop",
+    "TSEC",
+    "Robotics & Automation Club",
+    "ESP32-C3",
     "Arduino",
     "hands-on robotics",
   ],
@@ -80,8 +84,7 @@ const webPageJsonLd = {
   },
   about: {
     "@type": "Organization",
-    name: SITE_NAME,
-    url: absoluteUrl("/"),
+    name: "Robotics & Automation Club, TSEC",
   },
 };
 
@@ -94,14 +97,17 @@ const programJsonLd = {
   url: absoluteUrl(buildLabPath),
   provider: {
     "@type": "Organization",
-    name: SITE_NAME,
-    url: absoluteUrl("/"),
+    name: "Robotics & Automation Club, Thakur Shyamnarayan Engineering College",
+  },
+  offers: {
+    "@type": "Offer",
+    url: absoluteUrl("/workshops/esp32-walking-robot/"),
   },
   occupationalCategory: "Robotics Engineering",
   educationalProgramMode: "onsite",
   programPrerequisites: "No prior robotics experience required. Laptop recommended.",
   teaches: [
-    "ESP32 Programming",
+    "ESP32-C3 Programming",
     "Arduino IDE",
     "Robot Assembly",
     "Servo Motors",
@@ -126,6 +132,26 @@ const breadcrumbJsonLd = {
       item: absoluteUrl(buildLabPath),
     },
   ],
+};
+
+const eventJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  name: workshop.name,
+  description: buildLabMeta.description,
+  startDate: "2026-08-21T13:00:00+05:30",
+  endDate: "2026-08-22T16:30:00+05:30",
+  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  eventStatus: "https://schema.org/EventScheduled",
+  organizer: {
+    "@type": "Organization",
+    name: workshop.organizer,
+  },
+  location: {
+    "@type": "Place",
+    name: workshop.college,
+  },
+  url: absoluteUrl("/workshops/esp32-walking-robot/"),
 };
 
 const faqJsonLd = {
@@ -169,6 +195,7 @@ export default function BuildLab001Page() {
         data={[
           webPageJsonLd,
           programJsonLd,
+          eventJsonLd,
           breadcrumbJsonLd,
           faqJsonLd,
           ...mentorJsonLd,
@@ -181,6 +208,18 @@ export default function BuildLab001Page() {
         Skip to content
       </a>
       <AboutHeader />
+      <div className="border-b border-accent/30 bg-accent/10 px-6 py-3 text-center text-sm text-foreground">
+        Official workshop hub:{" "}
+        <a
+          href="/workshops/esp32-walking-robot/"
+          className="font-medium text-accent underline-offset-2 hover:underline"
+        >
+          ESP32 Walking Robot
+        </a>
+        . Organized by Robotics & Automation Club, TSEC. This page keeps the
+        registration form. Aurigen hosts resources for builders who continue after
+        the event.
+      </div>
       <BuildLabSectionNav />
       <main id="main" className="flex-grow">
         <BuildLabHero />

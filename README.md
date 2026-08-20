@@ -48,3 +48,10 @@ Use `@` for apex and `www` for the subdomain — not the full domain name. Enabl
 ## Constraints
 
 Static export means **no Next.js API routes / server features** on Pages. The local debug logger under `src/app/api/debug-log` is ignored and is not part of the published site.
+
+## ESP32 Walking Robot workshop
+
+See [`docs/workshop-ecosystem.md`](docs/workshop-ecosystem.md) for routes, BOT ID assignment, public vs private data, and what is live vs localStorage.
+
+Registration GAS setup: [`docs/buildlab-gas-setup.md`](docs/buildlab-gas-setup.md).
+

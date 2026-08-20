@@ -14,7 +14,7 @@ const menuItems = [
   { name: "Tracks", href: "#programs" },
   { name: "Work", href: "#projects" },
   { name: "Labs", href: "#schools" },
-  { name: "BuildLab", href: "/workshops/buildlab-001/" },
+  { name: "Workshop", href: "/workshops/esp32-walking-robot/" },
   { name: "About", href: "/about/" },
   { name: "Apply", href: "#contact" },
 ];

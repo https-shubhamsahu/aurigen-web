@@ -76,6 +76,10 @@ Content-Type: text/plain;charset=utf-8
 - Emails `shubhamsahu@aurigen.tech` (or `NOTIFICATION_EMAIL`)
 - Sends a confirmation email to the participant
 
+BOT IDs are **not** created by this script. Mentors assign `BOT-001` style IDs at check-in (teams of 1-5). Do not add BOT ID to the public site from this sheet.
+
+After you edit `scripts/buildlab-registration.gs`, you must **redeploy** the Apps Script web app (Manage deployments → Edit → New version) or the live form still uses the old email copy.
+
 ## 6. Media & brochure
 
 Drop assets under `public/workshops/buildlab-001/`:
