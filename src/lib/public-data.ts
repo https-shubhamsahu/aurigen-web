@@ -1,6 +1,6 @@
 /**
  * Public vs private data rules for workshop surfaces.
- * Registration contact fields must never appear on public pages.
+ * Never render phone, email, or pending vlogs on public pages.
  */
 
 import type { PublishStatus } from "@/types/workshop-ecosystem";

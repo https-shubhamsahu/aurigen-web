@@ -51,7 +51,9 @@ Static export means **no Next.js API routes / server features** on Pages. The lo
 
 ## ESP32 Walking Robot workshop
 
-See [`docs/workshop-ecosystem.md`](docs/workshop-ecosystem.md) for routes, BOT ID assignment, public vs private data, and what is live vs localStorage.
+See [`docs/workshop-ecosystem.md`](docs/workshop-ecosystem.md) for routes, BOT IDs, public vs private data, and the shared Sheet.
 
-Registration GAS setup: [`docs/buildlab-gas-setup.md`](docs/buildlab-gas-setup.md).
+During-workshop vlogs: [`docs/workshop-runtime-gas.md`](docs/workshop-runtime-gas.md) (`NEXT_PUBLIC_WORKSHOP_RUNTIME_GAS_URL`).
+
+Old registration script (not used live): [`docs/buildlab-gas-setup.md`](docs/buildlab-gas-setup.md).
 

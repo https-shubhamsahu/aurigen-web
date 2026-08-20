@@ -12,6 +12,7 @@ import {
   listPublicVlogs,
   submitVlog,
 } from "@/lib/vlog-service";
+import { isWorkshopRuntimeConfigured } from "@/lib/workshop-runtime";
 import { track } from "@/lib/analytics";
 import type { VlogSubmission } from "@/types/workshop-ecosystem";
 import { vlogBrief } from "@/content/workshops/esp32-walking-robot/vlog";
@@ -44,12 +45,17 @@ export function VlogChallengeView() {
   const [status, setStatus] = useState<"idle" | "saving" | "ok" | "error">("idle");
   const [message, setMessage] = useState("");
   const [gallery, setGallery] = useState<VlogSubmission[]>([]);
+  const [galleryNote, setGalleryNote] = useState("");
+  const sheetReady = isWorkshopRuntimeConfigured();
 
   useEffect(() => {
     track("vlog_page_viewed", {});
     listPublicVlogs()
       .then(setGallery)
-      .catch(() => setGallery([]));
+      .catch(() => {
+        setGallery([]);
+        setGalleryNote("Could not load the shared sheet gallery.");
+      });
   }, []);
 
   function validate(): boolean {
@@ -76,7 +82,7 @@ export function VlogChallengeView() {
     setMessage("");
 
     try {
-      const { submission, mode } = await submitVlog({
+      const result = await submitVlog({
         botId: form.botId,
         teamName: form.teamName.trim(),
         videoUrl: form.videoUrl.trim(),
@@ -87,12 +93,22 @@ export function VlogChallengeView() {
         consent: form.consent,
       });
 
-      track("vlog_submitted", { botId: submission.botId, mode });
-      setStatus("ok");
-      setMessage(
-        "Saved as Pending on this device. The public gallery only shows Approved, Featured, or Winner entries after a mentor promotes them.",
-      );
-      setForm(empty);
+      track("vlog_submitted", {
+        botId: form.botId,
+        ok: result.ok,
+        code: result.code || "ok",
+      });
+
+      if (result.ok) {
+        setStatus("ok");
+        setMessage(
+          "Saved to shared sheet. The public gallery shows it after a mentor sets Status to approved, featured, or winner.",
+        );
+        setForm(empty);
+      } else {
+        setStatus("error");
+        setMessage(result.message);
+      }
     } catch {
       setStatus("error");
       setMessage("Could not save submission. Try again.");
@@ -235,12 +251,17 @@ export function VlogChallengeView() {
       <div className="mt-16">
         <h2 className="font-heading text-2xl font-semibold">Gallery</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          Only Approved, Featured, or Winner submissions appear here. Pending
-          local saves stay on this device until a mentor publishes them.
+          Only rows with Status approved, featured, or winner appear here. Mentors
+          moderate in the private Google Sheet. This website is public.
         </p>
+        {galleryNote ? (
+          <p className="mt-2 text-sm text-destructive">{galleryNote}</p>
+        ) : null}
         {gallery.length === 0 ? (
           <div className="mt-6 rounded-md border border-dashed border-white/15 px-6 py-12 text-center text-sm text-muted-foreground">
-            No approved vlogs yet. Submit yours after the workshop.
+            {sheetReady
+              ? "No approved vlogs yet."
+              : "Submissions go live after the shared sheet is connected. Set NEXT_PUBLIC_WORKSHOP_RUNTIME_GAS_URL and rebuild."}
           </div>
         ) : (
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">

@@ -171,19 +171,20 @@ export function AboutHeader() {
               <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                 <Link
                   href={
-                    pathname.startsWith("/workshops/buildlab-001")
-                      ? "#register"
-                      : pathname.startsWith("/workshops/esp32-walking-robot")
-                        ? "/workshops/buildlab-001/#register"
-                        : "/#contact"
+                    pathname.startsWith("/workshops/") ||
+                    pathname.startsWith("/labs/esp32-walking-robot") ||
+                    pathname.startsWith("/builders")
+                      ? "/builders/"
+                      : "/#contact"
                   }
                   onClick={() => setMenuState(false)}
                   className="w-full sm:w-auto"
                 >
                   <Button size="lg" className="h-11 w-full sm:w-auto">
-                    {pathname.startsWith("/workshops/buildlab-001") ||
-                    pathname.startsWith("/workshops/esp32-walking-robot")
-                      ? "Reserve Seat"
+                    {pathname.startsWith("/workshops/") ||
+                    pathname.startsWith("/labs/esp32-walking-robot") ||
+                    pathname.startsWith("/builders")
+                      ? "Find your team"
                       : "Apply"}
                   </Button>
                 </Link>

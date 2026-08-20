@@ -1,72 +1,57 @@
 /**
- * VlogService: localStorage now, optional GAS fire-and-forget later.
- * Static Pages has no server DB. This is not a secure backend.
+ * Vlog submit + public gallery.
+ * Product database = Google Apps Script + Sheets (workshop-runtime).
+ * localStorage is only a labeled offline retry cache, never the live gallery.
  */
 
 import { seedApprovedVlogs } from "@/content/workshops/esp32-walking-robot/vlog";
-import { getStorageProvider } from "@/lib/storage";
-import { getVlogGasUrl } from "@/lib/workshop-config";
-import { normalizeBotId } from "@/lib/bot-id";
-import type { PublishStatus, VlogSubmission } from "@/types/workshop-ecosystem";
-
-export type VlogServiceMode = "local" | "local+gas";
-
-export function getVlogServiceMode(): VlogServiceMode {
-  return getVlogGasUrl() ? "local+gas" : "local";
-}
+import {
+  fetchPublicVlogs,
+  getWorkshopRuntimeDescription,
+  getWorkshopRuntimeLabel,
+  isWorkshopRuntimeConfigured,
+  submitWorkshopVlog,
+  type VlogSubmitInput,
+  type WorkshopRuntimeResult,
+} from "@/lib/workshop-runtime";
+import { isPublicVlogStatus } from "@/lib/public-data";
+import type { VlogSubmission } from "@/types/workshop-ecosystem";
 
 export function getVlogServiceLabel(): string {
-  return getVlogServiceMode() === "local+gas"
-    ? "Local save plus optional remote copy"
-    : "Local demo mode";
+  return getWorkshopRuntimeLabel();
 }
 
 export function getVlogServiceDescription(): string {
-  if (getVlogServiceMode() === "local+gas") {
-    return "This browser stores the submission, then also posts a copy to a configured Apps Script URL. The public gallery still only shows Approved, Featured, or Winner entries after a human promotes them into content.";
-  }
-  return "This browser stores pending submissions in localStorage. Clearing site data, using another device, or another browser loses them. Nothing is uploaded to a server until a remote endpoint is configured.";
-}
-
-function isPublicVlogStatus(status: PublishStatus): boolean {
-  return status === "approved" || status === "featured" || status === "winner";
+  return getWorkshopRuntimeDescription();
 }
 
 export async function listPublicVlogs(): Promise<VlogSubmission[]> {
-  const stored = await getStorageProvider().listVlogs(true);
-  const seeded: VlogSubmission[] = [...seedApprovedVlogs];
-  const merged = [...seeded, ...stored];
-  return merged.filter((v) => isPublicVlogStatus(v.status) && v.consent);
+  const seeded = seedApprovedVlogs.filter(
+    (v) => isPublicVlogStatus(v.status) && v.consent,
+  );
+
+  if (!isWorkshopRuntimeConfigured()) {
+    return seeded;
+  }
+
+  const remote = await fetchPublicVlogs();
+  const seen = new Set(seeded.map((v) => keyOf(v)));
+  const merged = [...seeded];
+  for (const row of remote) {
+    const key = keyOf(row);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    merged.push(row);
+  }
+  return merged;
 }
 
 export async function submitVlog(
-  input: Omit<VlogSubmission, "id" | "createdAt" | "status" | "botId"> & {
-    botId: string;
-  },
-): Promise<{ submission: VlogSubmission; mode: VlogServiceMode }> {
-  const submission: VlogSubmission = {
-    ...input,
-    id: `vlog_${Date.now()}`,
-    botId: normalizeBotId(input.botId),
-    status: "pending",
-    createdAt: new Date().toISOString(),
-  };
+  input: VlogSubmitInput,
+): Promise<WorkshopRuntimeResult> {
+  return submitWorkshopVlog(input);
+}
 
-  await getStorageProvider().saveVlog(submission);
-
-  const gas = getVlogGasUrl();
-  if (gas) {
-    try {
-      await fetch(gas, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify(submission),
-      });
-    } catch {
-      /* local save already succeeded */
-    }
-  }
-
-  return { submission, mode: getVlogServiceMode() };
+function keyOf(v: VlogSubmission): string {
+  return `${v.botId}|${v.videoUrl.trim().toLowerCase().replace(/\/+$/, "")}`;
 }

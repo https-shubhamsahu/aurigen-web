@@ -9,8 +9,10 @@ import {
   challengesPreview,
   continueBuilding,
   ecosystemLinks,
+  fieldGuideLinks,
   journeyDay1,
   journeyDay2,
+  postWorkshopNote,
   robotSpecs,
   workshop,
   workshopHero,
@@ -76,6 +78,9 @@ export function WorkshopHubView() {
                 </Button>
               </Link>
             </div>
+            <p className="mt-4 text-xs text-muted-foreground">
+              Robotics & Automation Club, TSEC organizes this workshop. Aurigen is not the organizer.
+            </p>
           </motion.div>
 
           <motion.div
@@ -95,6 +100,22 @@ export function WorkshopHubView() {
         </div>
       </section>
 
+      {/* Field guide */}
+      <Section id="field-guide" title="Open this during the workshop" eyebrow="Field guide">
+        <div className="grid gap-4 sm:grid-cols-2">
+          {fieldGuideLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="rounded-md border border-white/10 bg-card p-5 transition-colors hover:border-accent/40"
+            >
+              <h3 className="font-heading text-lg font-semibold">{link.title}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{link.detail}</p>
+            </Link>
+          ))}
+        </div>
+      </Section>
+
       {/* Overview */}
       <Section id="overview" title={workshopOverview.headline}>
         <div className="max-w-2xl space-y-3 text-sm leading-relaxed text-muted-foreground md:text-base">
@@ -107,7 +128,7 @@ export function WorkshopHubView() {
       {/* Robot */}
       <Section id="robot" title="The Robot" eyebrow="Hardware">
         <p className="mb-8 max-w-2xl text-sm text-muted-foreground md:text-base">
-          Four servos are driven directly by the ESP32-C3. Keep power solid. Keep grounds common.
+          Four servos are driven directly by the ESP32-C3. No PCA9685. Keep power solid. Keep grounds common.
         </p>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {robotSpecs.map((spec, i) => (
@@ -171,7 +192,7 @@ export function WorkshopHubView() {
       </Section>
 
       {/* Challenges */}
-      <Section id="challenges" title="Challenges" eyebrow="Preview">
+      <Section id="challenges" title="Today's missions" eyebrow="During the workshop">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {challengesPreview.map((c) => (
             <div
@@ -183,6 +204,12 @@ export function WorkshopHubView() {
             </div>
           ))}
         </div>
+        <p className="mt-6 text-sm text-muted-foreground">
+          {postWorkshopNote.detail}{" "}
+          <Link href={postWorkshopNote.href} className="text-accent hover:underline">
+            {postWorkshopNote.title}
+          </Link>
+        </p>
       </Section>
 
       {/* Ecosystem links */}
@@ -297,7 +324,7 @@ function Timeline({
 }: {
   title: string;
   subtitle: string;
-  steps: string[];
+  steps: readonly { time: string; title: string }[];
 }) {
   return (
     <div className="rounded-md border border-white/10 bg-card p-5 md:p-6">
@@ -305,11 +332,14 @@ function Timeline({
       <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
       <ol className="mt-6 space-y-3">
         {steps.map((step, i) => (
-          <li key={step} className="flex items-center gap-3 text-sm">
+          <li key={step.title} className="flex items-center gap-3 text-sm">
             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-sm border border-accent/30 font-mono text-[11px] text-accent">
               {i + 1}
             </span>
-            <span>{step}</span>
+            <span className="min-w-[4.5rem] font-mono text-xs text-accent">
+              {step.time}
+            </span>
+            <span>{step.title}</span>
           </li>
         ))}
       </ol>

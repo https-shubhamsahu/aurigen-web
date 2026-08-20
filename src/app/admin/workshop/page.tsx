@@ -2,35 +2,32 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import { AboutHeader } from "@/components/about/AboutHeader";
-import { googleDriveProvider } from "@/lib/storage";
 import { BOT_ID_ASSIGNMENT_NOTE } from "@/lib/bot-id";
 import {
-  getChallengeGasUrl,
-  getVlogGasUrl,
+  isWorkshopRuntimeConfigured,
+  getWorkshopRuntimeLabel,
+} from "@/lib/workshop-runtime";
+import {
   WORKSHOP_PATH,
   LAB_PATH,
   BUILDERS_PATH,
   VLOG_PATH,
   CHALLENGE_PATH,
 } from "@/lib/workshop-config";
-import { getVlogServiceLabel } from "@/lib/vlog-service";
-import { getChallengeStorageLabel } from "@/lib/challenge-service";
 
 export const metadata: Metadata = {
-  title: "Workshop Admin (Demo stub)",
+  title: "Workshop admin is public",
   description:
-    "Content workflow notes for the ESP32 Walking Robot ecosystem. No public auth on this static site.",
+    "This URL is public. Real moderation is the private Google Sheet. No login on this static site.",
   robots: { index: false, follow: false },
 };
 
 /**
- * Gated-by-obscurity stub. Static export has no auth.
- * Real moderation needs a backend later. Do not treat this URL as secure.
+ * This URL is public. Static GitHub Pages has no auth.
+ * Real admin = the private Google Sheet (see docs/workshop-runtime-gas.md).
  */
 export default function WorkshopAdminStubPage() {
-  const driveStatus = googleDriveProvider.statusMessage();
-  const vlogGas = Boolean(getVlogGasUrl());
-  const challengeGas = Boolean(getChallengeGasUrl());
+  const sheetReady = isWorkshopRuntimeConfigured();
 
   return (
     <>
@@ -38,99 +35,58 @@ export default function WorkshopAdminStubPage() {
       <main className="min-h-screen">
         <section className="mx-auto max-w-3xl px-6 pb-20 pt-28 lg:px-8">
           <p className="text-xs font-medium uppercase tracking-[0.14em] text-accent">
-            Demo mode. Not secure admin.
+            This URL is public
           </p>
           <h1 className="mt-3 font-heading text-3xl font-bold tracking-tight">
-            Workshop content workflow
+            Real moderation is the Google Sheet
           </h1>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            This static GitHub Pages site has no login, no session, and no
-            database. Anyone who knows the URL can open this page. Use it as a
-            checklist, not as a control panel.
+            This is a static GitHub Pages site. There is no login and no private
+            admin. Anyone who knows this URL can open it. Mentors approve vlogs
+            by editing Status on the private Sheet, then sharing that Sheet with
+            people who should moderate.
           </p>
 
           <div className="mt-8 space-y-3 rounded-md border border-accent/30 bg-accent/10 p-5 text-sm">
             <p>
-              <span className="font-heading font-semibold">Vlog:</span>{" "}
-              {getVlogServiceLabel()}
+              <span className="font-heading font-semibold">Shared sheet:</span>{" "}
+              {getWorkshopRuntimeLabel()}
+              {sheetReady ? "" : ". Set NEXT_PUBLIC_WORKSHOP_RUNTIME_GAS_URL and rebuild."}
             </p>
             <p>
-              <span className="font-heading font-semibold">Challenge:</span>{" "}
-              {getChallengeStorageLabel()}
-            </p>
-            <p>
-              <span className="font-heading font-semibold">Drive:</span>{" "}
-              {driveStatus}
-            </p>
-            <p>
-              <span className="font-heading font-semibold">Optional GAS:</span>{" "}
-              vlog {vlogGas ? "URL set" : "unset"}, challenge{" "}
-              {challengeGas ? "URL set" : "unset"}.
+              Setup steps:{" "}
+              <code className="text-xs text-accent">docs/workshop-runtime-gas.md</code>
             </p>
           </div>
 
           <ol className="mt-10 list-decimal space-y-6 pl-5 text-sm leading-relaxed text-muted-foreground">
             <li>
               <p className="font-heading font-semibold text-foreground">
-                Registration (live)
+                Registration is off this site
               </p>
               <p className="mt-1">
-                Participants register on{" "}
-                <Link
-                  href="/workshops/buildlab-001/#register"
-                  className="text-accent hover:underline"
-                >
-                  /workshops/buildlab-001/#register
+                The college did not allow website registration. Teams signed up
+                through a Google Form. The 14 roster teams are on{" "}
+                <Link href={BUILDERS_PATH} className="text-accent hover:underline">
+                  /builders/
                 </Link>
-                . The browser posts to Google Apps Script. Phone and email stay
-                in the private sheet. Do not paste them into public content.
+                . Do not add a signup form here.
               </p>
             </li>
             <li>
               <p className="font-heading font-semibold text-foreground">
-                BOT ID assignment (manual)
+                BOT IDs
               </p>
               <p className="mt-1">{BOT_ID_ASSIGNMENT_NOTE}</p>
-              <p className="mt-1">
-                Keep a paper or sheet column: Team name, member count (1-5), BOT
-                ID. Start at BOT-001. Never reuse. BOT-901+ is reserved for
-                layout samples in code.
-              </p>
             </li>
             <li>
               <p className="font-heading font-semibold text-foreground">
-                During workshop
+                Approve vlogs in the Sheet
               </p>
               <p className="mt-1">
-                Point teams at the hub, then Code Library. Do not change
-                registration payload fields.
-              </p>
-            </li>
-            <li>
-              <p className="font-heading font-semibold text-foreground">
-                Vlog moderation (future)
-              </p>
-              <p className="mt-1">
-                Public form saves Pending in localStorage (and optional GAS if
-                configured). To publish: copy an approved entry into{" "}
-                <code className="text-xs text-accent">
-                  src/content/workshops/esp32-walking-robot/vlog.ts
-                </code>{" "}
-                as status approved, featured, or winner. Rebuild and deploy.
-              </p>
-            </li>
-            <li>
-              <p className="font-heading font-semibold text-foreground">
-                Builder profiles (future)
-              </p>
-              <p className="mt-1">
-                Add consented public records to{" "}
-                <code className="text-xs text-accent">
-                  src/content/builders/seed.ts
-                </code>
-                . Set <code className="text-xs">isSample: false</code>. First
-                names only. No phone, email, or private Drive URL. Remove or
-                keep layout samples under BOT-901+ with isSample true.
+                New rows land as pending. Set Status to approved, featured, or
+                winner. Leave pending or blank to keep a row off the public
+                gallery. Public GET never returns pending, phone, or email.
               </p>
             </li>
             <li>
@@ -138,36 +94,11 @@ export default function WorkshopAdminStubPage() {
                 7-Day challenge
               </p>
               <p className="mt-1">
-                Day copy lives in{" "}
-                <code className="text-xs text-accent">
-                  src/content/workshops/esp32-walking-robot/challenge.ts
-                </code>
-                . Progress is per-browser localStorage, not a shared
+                Post-workshop personal tracker on each phone. Not a global
                 leaderboard.
               </p>
             </li>
           </ol>
-
-          <div className="mt-8 space-y-4 rounded-md border border-white/10 bg-card p-5 text-sm text-muted-foreground">
-            <p>
-              <span className="text-foreground">Hub copy:</span>{" "}
-              <code className="text-xs text-accent">
-                src/content/workshops/esp32-walking-robot/
-              </code>
-            </p>
-            <p>
-              <span className="text-foreground">Lab modules:</span>{" "}
-              <code className="text-xs text-accent">
-                src/content/labs/esp32-walking-robot/
-              </code>
-            </p>
-            <p>
-              <span className="text-foreground">Ops doc:</span>{" "}
-              <code className="text-xs text-accent">
-                docs/workshop-ecosystem.md
-              </code>
-            </p>
-          </div>
 
           <ul className="mt-8 space-y-2 text-sm">
             <li>
@@ -192,7 +123,7 @@ export default function WorkshopAdminStubPage() {
             </li>
             <li>
               <Link href={CHALLENGE_PATH} className="text-accent hover:underline">
-                7-Day challenge
+                7-Day challenge (post-workshop)
               </Link>
             </li>
           </ul>

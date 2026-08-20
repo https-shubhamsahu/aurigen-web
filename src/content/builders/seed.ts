@@ -2,8 +2,8 @@
  * Public builder seed data.
  * Samples use BOT-901+ so they never collide with real BOT-001 assignment.
  * Samples are layout fixtures only. Do not treat them as workshop teams.
- * Real BOT-001 to BOT-014 rows are registered workshop teams. First names only.
- * No phones, emails, WhatsApp, or private Drive URLs.
+ * Real BOT-001 to BOT-014 rows are workshop teams from the college Google Form.
+ * First names only. No phones, emails, WhatsApp, or private Drive URLs.
  */
 
 import { MEDIA_BASE } from "@/lib/workshop-config";

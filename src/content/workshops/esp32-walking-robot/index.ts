@@ -71,20 +71,44 @@ export const workshopMeta = {
 export const workshopHero = {
   brand: "ESP32 Walking Robot",
   support:
-    "A hands-on robotics project where participants assemble, program, debug and compete with their own ESP32-C3 walking robot.",
+    "Field guide for the two-day ESP32-C3 walking robot workshop. Teams already signed up through the college Google Form. Open this on your phone for schedule, BOT IDs, code, vlog submit, and social kit.",
   organizerLine: workshop.organizerShort,
   datesLine: "21-22 August 2026",
   teamLine: `Teams of ${workshop.teamSize.min}-${workshop.teamSize.max}`,
-  primaryCta: { label: "Open Code Library", href: LAB_PATH },
-  secondaryCta: { label: "Register (BuildLab form)", href: "/workshops/buildlab-001/#register" },
+  primaryCta: { label: "Find your team", href: BUILDERS_PATH },
+  secondaryCta: { label: "Open Code Library", href: LAB_PATH },
 };
+
+export const fieldGuideLinks = [
+  {
+    title: "Find your team",
+    detail: "Search by team name. BOT-001 through BOT-014 are on the roster.",
+    href: BUILDERS_PATH,
+  },
+  {
+    title: "Code library",
+    detail: "ESP32-C3 modules from first boot to gait. No PCA9685.",
+    href: LAB_PATH,
+  },
+  {
+    title: "Vlog challenge",
+    detail: "Submit BUILD. FAIL. DEBUG. WALK. to the shared sheet.",
+    href: VLOG_PATH,
+  },
+  {
+    title: "Social kit",
+    detail: "Story PNG and captions. Credit RAC TSEC.",
+    href: SOCIAL_PATH,
+  },
+] as const;
 
 export const workshopOverview = {
   headline: "Workshop Overview",
   body: [
+    "Organized by the Robotics & Automation Club, TSEC. Aurigen hosts this site. Aurigen is not the organizer.",
     "Over two days you build a walking robot from parts to first steps.",
-    "You wire the ESP32-C3, drive four servos, light up the OLED, and ship working firmware.",
-    "Then you debug, customize, and take the robot into the arena.",
+    "You wire the ESP32-C3, drive four servos directly (no PCA9685), light up the OLED, and ship working firmware.",
+    "This site does not take registrations. Find your team on the Builders page.",
   ],
 };
 
@@ -116,21 +140,21 @@ export const robotSpecs = [
 ] as const;
 
 export const journeyDay1 = [
-  "Discover",
-  "Assemble",
-  "Wire",
-  "First Boot",
-  "Servo Test",
-  "OLED",
+  { time: "1:00 PM", title: "Discover" },
+  { time: "1:45 PM", title: "Assemble" },
+  { time: "2:30 PM", title: "Wire" },
+  { time: "3:15 PM", title: "First Boot" },
+  { time: "4:00 PM", title: "Servo Test" },
+  { time: "4:45 PM", title: "OLED" },
 ] as const;
 
 export const journeyDay2 = [
-  "Program",
-  "BLE",
-  "Debug",
-  "Customize",
-  "Challenge",
-  "Robot Arena",
+  { time: "9:30 AM", title: "Program" },
+  { time: "10:45 AM", title: "BLE" },
+  { time: "12:00 PM", title: "Debug" },
+  { time: "1:15 PM", title: "Customize" },
+  { time: "2:30 PM", title: "Today's missions" },
+  { time: "3:30 PM", title: "Robot Arena" },
 ] as const;
 
 export const challengesPreview = [
@@ -141,6 +165,12 @@ export const challengesPreview = [
   { title: "Hack the Robot", detail: "Ship one bold custom feature." },
   { title: "Robot Arena", detail: "Compete with what you built." },
 ] as const;
+
+export const postWorkshopNote = {
+  title: "7-Day Challenge",
+  detail: "Starts after the workshop. Personal tracker on your phone, not a global leaderboard.",
+  href: CHALLENGE_PATH,
+};
 
 export const ecosystemLinks = [
   {
@@ -160,7 +190,7 @@ export const ecosystemLinks = [
   },
   {
     title: "7-Day Challenge",
-    detail: "Seven hacks after the workshop.",
+    detail: "Post-workshop. Personal tracker on this device, not a global leaderboard.",
     href: CHALLENGE_PATH,
   },
   {
@@ -190,12 +220,17 @@ export const workshopFaq = [
   {
     question: "Who organizes this workshop?",
     answer:
-      "The Robotics & Automation Club at Thakur Shyamnarayan Engineering College (TSEC). Aurigen hosts project resources and builder tools for teams who want to continue after the event.",
+      "The Robotics & Automation Club at Thakur Shyamnarayan Engineering College (TSEC). Aurigen hosts this site. Aurigen is not the organizer.",
+  },
+  {
+    question: "How do I register on this website?",
+    answer:
+      "You do not. The college did not allow website registration. Teams already signed up through the Google Form. Find your team and BOT ID on the Builders page.",
   },
   {
     question: "What hardware do we use?",
     answer:
-      "ESP32-C3 expansion board, four servos driven directly by the ESP32-C3, a 0.96-inch OLED, a 3.7V Li-ion cell with holder, a slide switch, and optionally a 470µF capacitor.",
+      "ESP32-C3 expansion board, four servos driven directly by the ESP32-C3 (no PCA9685), a 0.96-inch OLED, a 3.7V Li-ion cell with holder, a slide switch, and optionally a 470µF capacitor.",
   },
   {
     question: "What is the team size?",
@@ -207,7 +242,7 @@ export const workshopFaq = [
       "Day 1: 21 August 2026, 1:00 PM to 5:30 PM. Day 2: 22 August 2026, 9:30 AM to 4:30 PM.",
   },
   {
-    question: "Where do we find code after the workshop?",
+    question: "Where do we find code?",
     answer:
       "Use the Code Library at /labs/esp32-walking-robot/. Modules cover setup through challenges and troubleshooting.",
   },

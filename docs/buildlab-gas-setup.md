@@ -1,6 +1,9 @@
-# BuildLab #001 Google Apps Script setup
+# BuildLab #001 Google Apps Script setup (template, not live)
 
-Static export (GitHub Pages) has **no** Next.js API routes at runtime. The browser posts registration data straight to a Google Apps Script Web App.
+**Not used by the live workshop UI.** The college did not allow website registration. Teams signed up through a Google Form. This file documents the old registration Web App as a template only.
+
+For during-workshop vlog submissions, use [`docs/workshop-runtime-gas.md`](workshop-runtime-gas.md) and [`scripts/workshop-runtime.gs`](../scripts/workshop-runtime.gs).
+
 
 ## 1. Create the sheet
 
@@ -24,7 +27,7 @@ Redeploy after every script change (**Manage deployments → Edit → New versio
 ## 3. Environment variables
 
 Use the **public** variable so the static client can read it. For GitHub Pages,
-`NEXT_PUBLIC_*` must be present at **build** time — either via CI secrets or the
+`NEXT_PUBLIC_*` must be present at **build** time, either via CI secrets or the
 code defaults in [`src/lib/buildlab-config.ts`](../src/lib/buildlab-config.ts)
 (GAS Web App URL is a client-facing endpoint by design).
 

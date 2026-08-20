@@ -1,6 +1,7 @@
 /**
  * BOT ID helpers. Format: BOT-001, BOT-014, BOT-901, ...
- * Mentors assign IDs during check-in. Registration (GAS) does not create a BOT ID.
+ * Roster IDs BOT-001 through BOT-014 come from the college Google Form.
+ * This site does not register teams or issue BOT IDs.
  */
 
 export const BOT_ID_PATTERN = /^BOT-\d{3,}$/i;
@@ -30,4 +31,4 @@ export function isReservedSampleBotId(raw: string): boolean {
 }
 
 export const BOT_ID_ASSIGNMENT_NOTE =
-  "Mentors assign a unique BOT ID (BOT-001, BOT-002, ...) to each team of 1-5 during workshop check-in. The registration form does not issue a BOT ID.";
+  "BOT IDs BOT-001 through BOT-014 are on the Google Form roster and the Builders page. Mentors can confirm at check-in. This site does not register teams or issue new BOT IDs.";

@@ -1,9 +1,9 @@
 /**
  * Aurigen BuildLab #001 content module.
- * Swap media paths, copy, and FAQ here without touching layout components.
+ * Live /workshops/buildlab-001/ redirects to the workshop hub.
+ * Registration copy in this file is unused by the live site.
  *
  * Media lives under public/workshops/buildlab-001/.
- * Missing files fall back to branded placeholders in the UI.
  */
 
 import { aboutFounders } from "@/content/about";

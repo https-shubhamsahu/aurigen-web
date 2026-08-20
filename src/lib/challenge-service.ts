@@ -1,6 +1,6 @@
 /**
- * Challenge progress: content model in challenge.ts, storage via StorageProvider.
- * Browser localStorage only unless NEXT_PUBLIC_CHALLENGE_GAS_URL is set.
+ * 7-Day challenge is POST-workshop and per-browser.
+ * This is not a shared leaderboard. Mentors who need a global view use the Sheet.
  */
 
 import {
@@ -9,7 +9,6 @@ import {
   sevenDayChallenge,
 } from "@/content/workshops/esp32-walking-robot/challenge";
 import { getStorageProvider } from "@/lib/storage";
-import { getChallengeGasUrl } from "@/lib/workshop-config";
 import { normalizeBotId } from "@/lib/bot-id";
 import type { Challenge, ChallengeProgress } from "@/types/workshop-ecosystem";
 
@@ -25,13 +24,11 @@ export function getChallengeScore(completedDays: number[]): {
 }
 
 export function getChallengeStorageLabel(): string {
-  return getChallengeGasUrl()
-    ? "Saved on this device, with an optional remote copy"
-    : "Saved on this device only";
+  return "Post-workshop tracker on this device";
 }
 
 export function getChallengeStorageDescription(): string {
-  return "Progress lives in this browser's localStorage. It does not follow you to another phone or laptop. Clearing site data resets the score. This is not a shared leaderboard.";
+  return "This 7-day challenge starts after the workshop. Progress is stored in this browser only. It is not a global leaderboard. Clearing site data or switching phones resets the score.";
 }
 
 export async function loadChallengeProgress(
@@ -50,20 +47,5 @@ export async function saveChallengeProgress(
     updatedAt: new Date().toISOString(),
   };
   await getStorageProvider().saveChallengeProgress(progress);
-
-  const gas = getChallengeGasUrl();
-  if (gas) {
-    try {
-      await fetch(gas, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify(progress),
-      });
-    } catch {
-      /* local save already succeeded */
-    }
-  }
-
   return progress;
 }

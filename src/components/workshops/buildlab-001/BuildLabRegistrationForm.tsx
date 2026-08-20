@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * Unused by the live workshop UI. Kept as a template.
+ * Teams registered via Google Form. See scripts/workshop-runtime.gs for vlogs.
+ */
+
 import { useEffect, useRef, useState, useTransition } from "react";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";

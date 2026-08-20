@@ -53,7 +53,6 @@ export type Workshop = {
 
 /**
  * Public participant. No email, phone, WhatsApp, or Drive refs.
- * Those stay in the GAS registration sheet only.
  */
 export type Participant = {
   id: string;
@@ -64,7 +63,7 @@ export type Participant = {
 
 /**
  * Private registration contact. Never import this into public UI or seed data.
- * Source of truth: Google Apps Script Registrations sheet.
+ * Source of truth: the college Google Form / private Sheet. Not this website.
  */
 export type PrivateRegistrationContact = {
   email: string;

@@ -8,13 +8,13 @@ import { CHALLENGE_PATH } from "@/lib/workshop-config";
 import { OG_IMAGE, SITE_NAME, absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "7-Day ESP32 Robot Challenge",
+  title: "7-Day ESP32 Robot Challenge (post-workshop)",
   description:
-    "Seven daily robot hacks after the ESP32 Walking Robot Workshop. Track progress by BOT ID and earn a Robot Builder Score.",
+    "Seven daily robot hacks after the ESP32 Walking Robot Workshop. Personal tracker on this device. Not a global leaderboard.",
   alternates: { canonical: CHALLENGE_PATH },
   openGraph: {
     title: "7-Day ESP32 Robot Challenge",
-    description: "7 Days. 7 Robot Hacks. Keep building after the workshop.",
+    description: "Post-workshop. 7 Days. 7 Robot Hacks. Personal tracker on this device.",
     type: "website",
     url: absoluteUrl(CHALLENGE_PATH),
     siteName: SITE_NAME,

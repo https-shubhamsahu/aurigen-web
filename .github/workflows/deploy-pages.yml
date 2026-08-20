@@ -35,7 +35,8 @@ jobs:
           # Empty for apex custom domain https://aurigen.tech
           # (project URL https://…github.io/aurigen-web/ needs /aurigen-web instead)
           PAGES_BASE_PATH: ""
-          # Optional overrides; unset → defaults in src/lib/buildlab-config.ts
+          # Optional; empty falls through to WORKSHOP_RUNTIME_GAS_URL_DEFAULT
+          NEXT_PUBLIC_WORKSHOP_RUNTIME_GAS_URL: ${{ secrets.NEXT_PUBLIC_WORKSHOP_RUNTIME_GAS_URL }}
           NEXT_PUBLIC_BUILDLAB_GAS_URL: ${{ secrets.NEXT_PUBLIC_BUILDLAB_GAS_URL }}
           NEXT_PUBLIC_WHATSAPP_NUMBER: ${{ secrets.NEXT_PUBLIC_WHATSAPP_NUMBER }}
           NEXT_PUBLIC_VLOG_GAS_URL: ${{ secrets.NEXT_PUBLIC_VLOG_GAS_URL }}

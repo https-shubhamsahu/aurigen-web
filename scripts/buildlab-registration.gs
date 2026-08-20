@@ -1,5 +1,9 @@
 /**
- * Aurigen BuildLab #001 — Google Apps Script Web App
+ * Aurigen BuildLab #001 — Google Apps Script Web App (TEMPLATE)
+ *
+ * Not used by the live workshop UI. Teams registered via Google Form.
+ * Kept as a registration-sheet template. For during-workshop vlogs, deploy
+ * scripts/workshop-runtime.gs instead (see docs/workshop-runtime-gas.md).
  *
  * Deploy:
  * 1. Create a Google Sheet with a tab named "Registrations".

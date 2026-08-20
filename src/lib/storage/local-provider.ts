@@ -1,6 +1,7 @@
 /**
- * LocalStorage-backed provider for vlogs + challenge progress.
- * Seed projects come from content modules (immutable demos).
+ * LocalStorage-backed provider.
+ * 7-day challenge progress is per-browser (post-workshop, not a leaderboard).
+ * Vlog product data lives in the shared Google Sheet (workshop-runtime).
  */
 
 import { seedBuilders } from "@/content/builders/seed";

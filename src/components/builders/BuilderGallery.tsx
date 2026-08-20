@@ -32,15 +32,35 @@ export function BuilderGallery({
   samples: Project[];
 }) {
   const [filter, setFilter] = useState<BuilderFilterId>("all");
+  const [query, setQuery] = useState("");
   const pool = filter === "samples" ? samples : projects;
 
-  const visible = useMemo(
-    () => pool.filter((p) => matchesFilter(p, filter)),
-    [pool, filter],
-  );
+  const visible = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return pool.filter((p) => {
+      if (!matchesFilter(p, filter)) return false;
+      if (!q) return true;
+      const hay = [p.botId, p.teamName, ...p.members].join(" ").toLowerCase();
+      return hay.includes(q);
+    });
+  }, [pool, filter, query]);
 
   return (
     <div>
+      <div className="mb-6">
+        <label htmlFor="find-bot" className="sr-only">
+          Find your BOT ID
+        </label>
+        <input
+          id="find-bot"
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Find your BOT ID or team name"
+          className="h-11 w-full rounded-md border border-white/10 bg-transparent px-3 text-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring/40"
+        />
+      </div>
+
       <div className="mb-8 flex gap-2 overflow-x-auto pb-1">
         {builderFilters.map((f) => (
           <button
@@ -65,7 +85,7 @@ export function BuilderGallery({
       {filter === "samples" ? (
         <p className="mb-6 text-sm text-muted-foreground">
           These cards are layout fixtures (BOT-901+). They are not workshop
-          teams. Registered teams appear under All.
+          teams. Roster teams appear under All.
         </p>
       ) : null}
 

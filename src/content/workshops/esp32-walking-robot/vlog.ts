@@ -39,8 +39,8 @@ export const vlogBrief = {
 };
 
 /**
- * Public gallery seed. Keep empty until a human approves a real vlog.
- * Do not paste pending localStorage rows here.
+ * Static fallback if the shared Sheet URL is unset.
+ * Live gallery prefers approved rows from workshop-runtime GAS.
  */
 export const seedApprovedVlogs: import("@/types/workshop-ecosystem").VlogSubmission[] =
   [];

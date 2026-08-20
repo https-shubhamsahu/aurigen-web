@@ -10,7 +10,7 @@ export const sevenDayChallenge: Challenge = {
   workshopId: "esp32-walking-robot",
   title: "7 Days. 7 Robot Hacks.",
   subtitle:
-    "Keep building after the workshop. One mission a day. Earn your Robot Builder Score.",
+    "Post-workshop. One mission a day on this device. This score is not a shared leaderboard.",
   days: [
     {
       day: 1,
