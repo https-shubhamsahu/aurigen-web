@@ -24,6 +24,7 @@ export type FounderProfile = {
   areasOfFocus: string[];
   portrait: AboutImage;
   links: {
+    website?: string;
     github?: string;
     linkedin?: string;
     email?: string;
@@ -192,6 +193,7 @@ export const aboutFounders: FounderProfile[] = [
       objectPosition: "center 18%",
     },
     links: {
+      website: "https://shubham-sahu.me/",
       github: "https://github.com/https-shubhamsahu",
       linkedin: "https://www.linkedin.com/in/shubhamsahu9372",
       email: "mailto:shubhamsahu@aurigen.tech",

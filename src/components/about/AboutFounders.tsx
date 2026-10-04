@@ -17,6 +17,9 @@ type FounderLink = {
 
 function founderLinks(links: FounderProfile["links"]): FounderLink[] {
   const items: FounderLink[] = [];
+  if (links.website) {
+    items.push({ label: "Official portfolio", href: links.website, external: true });
+  }
   if (links.github) {
     items.push({ label: "GitHub", href: links.github, external: true });
   }
