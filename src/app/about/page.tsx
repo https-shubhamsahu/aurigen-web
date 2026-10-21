@@ -24,7 +24,7 @@ import { aboutFaq } from "@/content/faq";
 import { OG_IMAGE, SITE_NAME, absoluteUrl } from "@/lib/site";
 
 function founderSameAs(links: (typeof aboutFounders)[number]["links"]): string[] {
-  return [links.github, links.linkedin, links.x, links.instagram].filter(
+  return [links.website, links.github, links.linkedin, links.x, links.instagram].filter(
     (url): url is string => Boolean(url),
   );
 }
@@ -122,6 +122,13 @@ const founderJsonLd = aboutFounders.map((founder) => {
   return {
     "@context": "https://schema.org",
     "@type": "Person",
+    // Same @id as the founder's own site, so search engines merge the two.
+    ...(founder.links.website
+      ? {
+          "@id": `${founder.links.website.replace(/\/$/, "")}/#person`,
+          url: founder.links.website,
+        }
+      : {}),
     name: founder.name,
     jobTitle: founder.role,
     description: founder.intro,
