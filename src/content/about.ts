@@ -178,7 +178,7 @@ export const aboutFounders: FounderProfile[] = [
     name: "Shubham Sahu",
     role: "Co-Founder",
     intro:
-      "Shubham Sahu co-founded Aurigen with the belief that engineering is learned through making. His work spans artificial intelligence, robotics, embedded systems, and product engineering. He is committed to building an institution where future engineers develop the confidence to design, build, and ship technology that matters.",
+      "Shubham Sahu, founder of NO SUS, co-founded Aurigen with the belief that engineering is learned through making. His work spans artificial intelligence, robotics, embedded systems, and product engineering. He is committed to building an institution where future engineers develop the confidence to design, build, and ship technology that matters.",
     areasOfFocus: [
       "Artificial Intelligence",
       "Robotics",
